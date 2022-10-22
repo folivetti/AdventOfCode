@@ -13,7 +13,7 @@ calcTot (l, w, h) = 2*l*w + 2*w*h + 2*h*l + spare
   where spare = minimum [l*w, w*h, h*l]
 
 calcRibbon :: (Int, Int, Int) -> Int
-calcRibbon (l, w, h) = (l*w*h +) $ (2*) $ sum $ take 2 $ sort [l,w,h]
+calcRibbon (l, w, h) = l*w*h + 2 * minimum [l+w, l+h, w+h] -- (l*w*h +) $ (2*) $ sum $ take 2 $ sort [l,w,h]
 
 solution :: IO ()
 solution = do
