@@ -5,6 +5,7 @@ import qualified Y2015.Day02 as A201502
 import qualified Y2015.Day03 as A201503
 import qualified Y2015.Day04 as A201504
 import qualified Y2015.Day05 as A201505
+import qualified Y2015.Day06 as A201506
 
 import qualified Y2018.Day01 as A201801
 
@@ -14,7 +15,7 @@ solveProblem 2015 2 = A201502.solution
 solveProblem 2015 3 = A201503.solution
 solveProblem 2015 4 = A201504.solution
 solveProblem 2015 5 = A201505.solution
-solveProblem 2015 6 = A201502.solution
+solveProblem 2015 6 = A201506.solution
 solveProblem 2015 7 = A201502.solution
 solveProblem 2015 8 = A201502.solution
 solveProblem 2015 9 = A201502.solution
