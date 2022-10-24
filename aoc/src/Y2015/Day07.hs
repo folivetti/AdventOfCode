@@ -6,14 +6,13 @@ import Data.Word
 import qualified Data.Map as M
 
 import qualified Data.ByteString.Char8 as B
-import Data.Attoparsec.ByteString.Char8
+import Data.Attoparsec.ByteString.Char8 ( parse, decimal, many', string, anyChar, manyTill, Parser, IResult(Done, Partial) )
 import Data.Attoparsec.ByteString.Char8 as P
 import Control.Applicative ( (<|>) )
 
 parserDest :: Parser String
-parserDest = do
-    _ <- manyTill anyChar (string "-> ")
-    many' anyChar
+parserDest =  manyTill anyChar (string "-> ")
+           >> many' anyChar
 {-# INLINE parserDest #-}
 
 getIx :: Int -> [a] -> a
@@ -25,67 +24,53 @@ fromPos table = (table M.!) . B.unpack
 {-# INLINE fromPos #-}
 
 parserInst :: M.Map String Int -> Parser ([Word16] -> Word16)
-parserInst table =  parse1And table
-                <|> parseAnd table
-                <|> parseOr table
-                <|> parseNot table
-                <|> parseRShift table
-                <|> parseLShift table
-                <|> parseAssign table
-
-
-parseAssign :: M.Map String Int -> Parser ([Word16] -> Word16)
-parseAssign table = do
-  f <- (const <$> decimal) <|> (getIx . fromPos table <$> P.takeWhile (/=' '))
+parserInst table = do
+  f <- parseFun table
   _ <- many' anyChar
   pure f
 
-parse1And :: M.Map String Int -> Parser ([Word16] -> Word16)
-parse1And table = do
-  x <- decimal
-  _ <- string " AND "
-  i2 <- fromPos table <$> P.takeWhile (/=' ')
-  _ <- many' anyChar
-  pure $ \xs -> x .&. (xs !! i2)
+parseFun :: M.Map String Int -> Parser ([Word16] -> Word16)
+parseFun table =  parseOp table
+              <|> parseShift table
+              <|> parseNot table
+              <|> parseAssign table
 
-parseAnd :: M.Map String Int -> Parser ([Word16] -> Word16)
-parseAnd table = do
-  i1 <- (table M.!) . B.unpack <$> P.takeWhile (/=' ')
-  _ <- string " AND "
-  i2 <- (table M.!) . B.unpack <$> P.takeWhile (/=' ')
-  _ <- many' anyChar
-  pure $ \xs -> (xs !! i1) .&. (xs !! i2)
+parseIx :: M.Map String Int -> Parser ([Word16] -> Word16)
+parseIx table = do
+  ix <- fromPos table <$> P.takeWhile (/=' ')
+  pure (!! ix)
 
-parseOr :: M.Map String Int -> Parser ([Word16] -> Word16)
-parseOr table = do
-  i1 <- (table M.!) . B.unpack <$> P.takeWhile (/=' ')
-  _ <- string " OR "
-  i2 <- (table M.!) . B.unpack <$> P.takeWhile (/=' ')
-  _ <- many' anyChar
-  pure $ \xs -> (xs !! i1) .|. (xs !! i2)
+parseConst :: Parser ([Word16] -> Word16)
+parseConst = const <$> decimal
 
-parseRShift :: M.Map String Int -> Parser ([Word16] -> Word16)
-parseRShift table = do
-  i1 <- (table M.!) . B.unpack <$> P.takeWhile (/=' ')
-  _ <- string " RSHIFT "
-  i2 <- decimal
-  _ <- many' anyChar
-  pure $ \xs -> shiftR (xs !! i1) i2
+parseAssign :: M.Map String Int -> Parser ([Word16] -> Word16)
+parseAssign table = parseConst <|> parseIx table
 
-parseLShift :: M.Map String Int -> Parser ([Word16] -> Word16)
-parseLShift table = do
-  i1 <- (table M.!) . B.unpack <$> P.takeWhile (/=' ')
-  _ <- string " LSHIFT "
-  i2 <- decimal
-  _ <- many' anyChar
-  pure $ \xs -> shiftL (xs !! i1) i2
+parseOp :: M.Map String Int -> Parser ([Word16] -> Word16)
+parseOp table = do
+  i1 <- parseConst <|> parseIx table
+  op <- parseAnd <|> parseOr
+  i2 <- parseConst <|> parseIx table
+  pure $ \xs -> op (i1 xs) (i2 xs)
+      where 
+          parseAnd = string " AND " >> pure (.&.)
+          parseOr  = string " OR " >> pure (.|.)
+
+parseShift :: M.Map String Int -> Parser ([Word16] -> Word16)
+parseShift table = do
+    i1 <- parseIx table
+    f  <- parseRShift <|> parseLShift
+    x  <- decimal
+    pure $ \xs -> f (i1 xs) x
+  where
+      parseRShift = string " RSHIFT " >> pure shiftR
+      parseLShift = string " LSHIFT " >> pure shiftL
 
 parseNot :: M.Map String Int -> Parser ([Word16] -> Word16)
 parseNot table = do
   _ <- string "NOT "
-  i1 <- (table M.!) . B.unpack <$> P.takeWhile (/=' ')
-  _ <- many' anyChar
-  pure $ \xs -> complement (xs !! i1)
+  i1 <- parseIx table
+  pure $ \xs -> complement (i1 xs)
 
 runParser :: Parser a -> B.ByteString -> a
 runParser parser dat = case parse parser dat of
