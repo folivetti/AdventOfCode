@@ -1,7 +1,9 @@
 module Y2015.Day05 (solution) where
 
-part1, part2 :: String -> Bool
-part1 str = go str (0, False)
+import Data.List ( foldl' )
+
+part1, part2 :: String -> Int
+part1 str = fromEnum $ go str (0, False)
   where
       naughty = ["ab", "cd", "pq", "xy"]
       isVowel = fromEnum . (`elem` "aeiou")
@@ -10,8 +12,8 @@ part1 str = go str (0, False)
       go (x:y:xs) (b1, b2)
         | [x,y] `elem` naughty = False
         | otherwise = go (y:xs) (b1 + isVowel x, b2 || x==y)
-
-part2 str = go str (False, False)
+      
+part2 str = fromEnum $ go str (False, False)
   where
       twice xy xs = xy `elem` zip xs (tail xs)
       go (x:y:z:xs) (b1, b2) = go (y:z:xs) (b1 || x==z, b2 || twice (x,y) (z:xs))
@@ -20,7 +22,6 @@ part2 str = go str (False, False)
 
 solution :: IO ()
 solution = do
-  content <- readFile "inputs/2015/input05.txt"
-  let isNice f = length . filter f . lines
-  print $ isNice part1 content
-  print $ isNice part2 content
+  content <- lines <$> readFile "inputs/2015/input05.txt"
+  let isNice = foldl' (\(a, b) x -> (a + part1 x, b + part2 x)) (0, 0)
+  print $ isNice content
