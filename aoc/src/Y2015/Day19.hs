@@ -4,8 +4,8 @@ module Y2015.Day19 (solution) where
 import Data.Text ( Text )
 import qualified Data.Text as T
 import qualified Data.Text.IO as TIO
-import Data.List ( nub )
-import qualified Data.Set as S
+import Data.List ( nub, sortOn )
+import Data.Maybe ( isJust )
 
 parseRules :: [Text] -> [(Text, Text)]
 parseRules = map parse
@@ -14,23 +14,30 @@ parseRules = map parse
 
 replacements :: [(Text, Text)] -> Text -> [Text]
 replacements rules codex = nub $ concatMap (applyRule codex) rules
-  where
-    applyRule :: Text -> (Text, Text) -> [Text]
-    applyRule xss (a, b) =  map replace $ T.breakOnAll a xss
-      where
-        replace (x, "") = x
-        replace (x, y)  = x <> b <> T.drop n y
-        n = T.length a
 
-findCodex codex rules start = go [start] 0 S.empty
+applyRule :: Text -> (Text, Text) -> [Text]
+applyRule xss (a, b) =  map replace $ T.breakOnAll a xss
   where
-      go xs it tabu
-        | codex `elem` xs = it
-        | otherwise       = go xs' (it + 1) tabu'
+    replace (x, "") = x
+    replace (x, y)  = x <> b <> T.drop n y
+    n = T.length a
+
+findCodex :: Text -> [(Text, Text)] -> Text -> Maybe Int
+findCodex codex rules target = go 0 codex
+  where
+      go :: Int -> Text -> Maybe Int
+      go it xs
+        | xs == target    = Just it
+        | null candidates = Nothing
+        | otherwise       = head $ concatMap (mapFilter . apply) candidates
         where
-          xs'   = nub $ filter allowed $ concatMap (replacements rules) xs
-          tabu' = S.union tabu (S.fromList xs')
-          allowed x = x `notElem` tabu && T.length x <= T.length codex
+          candidates      = sortLen $ filterSub rules
+          isSubstringOf x = (/="") . snd . T.breakOn x
+          apply           = applyRule xs . swap
+          swap (a, b)     = (b, a)
+          mapFilter       = filter isJust . map (go (it+1))
+          sortLen         = sortOn (negate . T.length . snd)
+          filterSub       = filter ((`isSubstringOf` xs) . snd)
 
 --codex = "HOHOHO"
 --rules = [("H", "HO"), ("H", "OH"), ("O", "HH"), ("e", "H"), ("e", "O")]
