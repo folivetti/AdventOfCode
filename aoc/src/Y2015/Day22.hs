@@ -1,107 +1,115 @@
+{-# language TemplateHaskell #-}
 module Y2015.Day22 (solution) where
 
-import Data.Bifunctor ( bimap, first, second )
+import Control.Lens
 import Data.Maybe ( isJust )
 
-data Magic = Missile | Drain | Shield | Poison | Recharge deriving (Show, Eq)
+data Status = Status
+  { _player :: Int,
+    _boss :: Int,
+    _mana :: Int,
+    _shield :: Int,
+    _poison :: Int,
+    _recharge :: Int
+  }
+  deriving (Show, Eq)
+makeLenses ''Status
 
-data Player = Player
-    { hitPoints :: Int
-    , mana :: Int
-    , shield :: Int
-    , poison :: Int
-    , recharge :: Int
-    } deriving Show
+data Magic = Missile | Drain | Shield | Poison | Recharge
+    deriving (Show, Eq, Enum)
 
-addMana :: Int -> Player -> Player
-addMana x p        = p { mana = mana p + x }
-addHit :: Int -> Player -> Player
-addHit x p         = p { hitPoints = hitPoints p + x }
-activateShield :: Player -> Player
-activateShield p   = p { shield = 6 }
-activatePoison :: Player -> Player
-activatePoison p   = p { poison = 6 }
-activateRecharge :: Player -> Player
-activateRecharge p = p { recharge = 5 }
-decShield :: Player -> Player
-decShield p        = p { shield = dec0 (shield p) }
-decPoison :: Player -> Player
-decPoison p        = p { poison = dec0 (poison p) }
-decRecharge :: Player -> Player
-decRecharge p      = p { recharge = dec0 (recharge p) }
-decEffects :: Player -> Player
-decEffects         = decShield.decPoison.decRecharge
-dec0 :: Int -> Int
-dec0               = max 0 . subtract 1
+data Turn = Santa | Boss
+    deriving (Show)
 
-applyMagic :: Magic -> (Player, Int) -> (Player, Int)
-applyMagic Missile s  = bimap (addMana (-53)) (subtract 4) s
-applyMagic Drain s    = bimap (addHit 2 . addMana (-73)) (subtract 2) s
-applyMagic Shield s   = first (activateShield . addMana (-113)) s
-applyMagic Poison s   = first (activatePoison . addMana (-173)) s
-applyMagic Recharge s = first (activateRecharge . addMana (-229)) s
+decEffects :: Status -> Status
+decEffects = over shield dec0 . over poison dec0 . over recharge dec0
+  where dec0 = max 0 . subtract 1
+
+applyMagic :: Magic -> Status -> Status
+applyMagic Missile  = (mana -~ 53) . (boss -~ 4)
+applyMagic Drain    = (mana -~ 73) . (boss -~ 2) . (player +~ 2)
+applyMagic Shield   = (mana -~ 113) . (set shield 6)
+applyMagic Poison   = (mana -~ 173) . (set poison 6)
+applyMagic Recharge = (mana -~ 229) . (set recharge 5)
 
 manaOf :: Magic -> Int
-manaOf Missile = 53
-manaOf Drain = 73
-manaOf Shield = 113
-manaOf Poison = 173
+manaOf Missile  = 53
+manaOf Drain    = 73
+manaOf Shield   = 113
+manaOf Poison   = 173
 manaOf Recharge = 229
 
-applyEffect :: (Player, Int) -> (Player, Int)
-applyEffect = applyPoison . applyRecharge
+isActive :: Getting Int Status Int -> Status -> Bool
+isActive f = (>0) . view f
+
+applyEffect :: Bool -> Turn -> Status -> Status
+applyEffect b  turn = (if b then hitOne turn else id) . applyPoison . applyRecharge
   where
-    applyPoison   s = if isActive poison s   then second (subtract 3) s else s
-    applyRecharge s = if isActive recharge s then first (addMana 101) s else s
-    isActive f      = (>0) . f . fst
-
-santa :: Magic -> (Player, Int) -> (Player, Int)
-santa m = applyMagic m . first decEffects . applyEffect
-
-boss :: (Player, Int) -> (Player, Int)
-boss = applyShield . first decEffects . applyEffect
-  where applyShield s = if (shield.fst) s > 0
-                          then first (addHit (-2)) s
-                          else first (addHit (-9)) s
+    applyPoison s   = if isActive poison s
+                         then (boss -~ 3) s
+                         else s
+    applyRecharge s = if isActive recharge s
+                         then (mana +~ 101) s
+                         else s
 
 
-santaLost :: (Player, Int) -> Bool
-santaLost (p, b) = hitPoints p <= 0 || mana p < 0
+santaLost, santaWon, end :: Status -> Bool
+santaLost s = ((<=0) . view player) s || ((<=0) . view mana) s
+santaWon  = (<=0) . view boss
 
-santaWon :: (Player, Int) -> Bool
-santaWon (p, b) = hitPoints p > 0 && b == 0
+hitOne :: Turn -> Status -> Status
+hitOne Santa = player -~ 1
+hitOne Boss  = id
 
-hitOne :: (Player, Int) -> (Player, Int)
-hitOne = first (addHit (-1))
+data End = Win | Lose | Running deriving Show
 
-bestMana :: (Player, Int) -> Maybe Int
-bestMana st = go st True 0
+outcome :: Status -> End
+outcome s 
+  | santaWon s = Win
+  | santaLost s = Lose
+  | otherwise = Running 
+
+bestMana :: Bool -> Status -> Maybe Int
+bestMana hard = go Santa (Just 0) Nothing
   where
-    go s@(p,_) b m
-      | santaWon s  = Just m
+    go turn curMana minMana s
+      | santaWon s  = curMana
       | santaLost s = Nothing
-      | null magics = Nothing
-      | otherwise = if b
-                      then foldr getMin Nothing magics
-                      else go (boss s) True m
+      | isJust minMana && curMana > minMana = Nothing
+      | otherwise   = let s'        = decEffects $ applyEffect hard turn s
+                          hasShield = isActive shield s
+                       in case outcome s' of
+                           Win -> curMana
+                           Lose -> Nothing
+                           Running -> case turn of
+                                        Boss -> go Santa curMana minMana $ if hasShield
+                                                                     then (player -~ 2) s' 
+                                                                     else (player -~ 9) s'
+                                        Santa -> let budget = view mana s'
+                                                     magics = filter (`available` s') 
+                                                            $ filter ((<=budget) . manaOf)
+                                                              [Missile, Drain, Shield, Poison, Recharge]
+                                                  in foldr (getMin s') Nothing magics
       where
-        step m' = go (santa m' s) False (m + manaOf m')
-        getMin m' Nothing  = step m'
-        getMin m' (Just n) = if m + manaOf m' > n
-                               then Just n
-                               else case step m' of
-                                      Nothing -> Just n
-                                      Just n' -> Just (min n n')
-        magics  = filter (noMana &&& noShield &&& noPoison &&& noRecharge) [Missile, Drain, Shield, Poison, Recharge]
-        noMana m'           = manaOf m' <= mana p + if recharge p > 0 then 101 else 0
-        noShield Shield     = shield p <= 1
-        noShield _          = True
-        noPoison Poison     = poison p <= 1
-        noPoison _          = True
-        noRecharge Recharge = recharge p <= 1
-        noRecharge _        = True
-        f &&& g             = \x -> f x && g x
+        nextMana magic = fmap (manaOf magic +) curMana
+
+        getMin curSt magic Nothing = go Boss (nextMana magic) minMana $ applyMagic magic curSt
+        getMin curSt magic mx
+          | nextMana magic >= mx = mx
+          | otherwise = case go Boss (nextMana magic) mx (applyMagic magic curSt) of
+                          Nothing -> mx
+                          my      -> min mx my
+
+
+        available :: Magic -> Status -> Bool
+        available magic st = case magic of
+                               Shield -> view shield st == 0
+                               Poison -> view poison st == 0
+                               Recharge -> view recharge st == 0
+                               _ -> True
+
 
 solution :: IO ()
 solution = do
-    print $ bestMana (Player 50 500 0 0 0, 58)
+    print $ bestMana False (Status 50 58 500 0 0 0)
+    print $ bestMana True (Status 50 58 500 0 0 0)
