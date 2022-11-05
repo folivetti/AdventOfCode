@@ -9,9 +9,9 @@ import Debug.Trace ( trace )
 type Triple = (Int, Int, Int)
 
 first, second, third :: (Int -> Int) -> Triple -> Triple
-first f (a, b, c) = (f a, b, c)
+first f (a, b, c)  = (f a, b, c)
 second f (a, b, c) = (a, f b, c)
-third f (a, b, c) = (a, b, f c)
+third f (a, b, c)  = (a, b, f c)
 
 getFst, getSnd :: Triple -> Int
 getFst (a, _, _) = a
@@ -51,10 +51,11 @@ evalFuns funs = go
     go (a, b, ix)
       | ix >= n = (a, b, ix)
       | otherwise = let (a', b', ix') = (funs !! ix) (a, b, ix)
-                     in if ix == ix' then go (a', b', ix+1)
-                                     else go (a', b', ix')
+                     in if ix == ix' 
+                           then go (a', b', ix+1)
+                           else go (a', b', ix')
 solution :: IO ()
 solution = do content <- B.lines <$> B.readFile "inputs/2015/input23.txt"
               let funs = map (runParser parseInstruction) content
-              print $ evalFuns funs (0,0,0)
-              print $ evalFuns funs (1,0,0)
+              print $ getSnd $ evalFuns funs (0,0,0)
+              print $ getSnd $ evalFuns funs (1,0,0)

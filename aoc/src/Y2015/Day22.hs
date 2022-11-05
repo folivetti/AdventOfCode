@@ -1,7 +1,7 @@
 {-# language TemplateHaskell #-}
 module Y2015.Day22 (solution) where
 
-import Control.Lens
+import Control.Lens ( view, (+~), (-~), over, set, makeLenses, Getting )
 import Data.Maybe ( isJust )
 
 data Status = Status
@@ -28,9 +28,9 @@ decEffects = over shield dec0 . over poison dec0 . over recharge dec0
 applyMagic :: Magic -> Status -> Status
 applyMagic Missile  = (mana -~ 53) . (boss -~ 4)
 applyMagic Drain    = (mana -~ 73) . (boss -~ 2) . (player +~ 2)
-applyMagic Shield   = (mana -~ 113) . (set shield 6)
-applyMagic Poison   = (mana -~ 173) . (set poison 6)
-applyMagic Recharge = (mana -~ 229) . (set recharge 5)
+applyMagic Shield   = (mana -~ 113) . set shield 6
+applyMagic Poison   = (mana -~ 173) . set poison 6
+applyMagic Recharge = (mana -~ 229) . set recharge 5
 
 manaOf :: Magic -> Int
 manaOf Missile  = 53
@@ -43,7 +43,7 @@ isActive :: Getting Int Status Int -> Status -> Bool
 isActive f = (>0) . view f
 
 applyEffect :: Bool -> Turn -> Status -> Status
-applyEffect b  turn = (if b then hitOne turn else id) . applyPoison . applyRecharge
+applyEffect b turn = (if b then hitOne turn else id) . applyPoison . applyRecharge
   where
     applyPoison s   = if isActive poison s
                          then (boss -~ 3) s
@@ -54,7 +54,7 @@ applyEffect b  turn = (if b then hitOne turn else id) . applyPoison . applyRecha
 
 
 santaLost, santaWon :: Status -> Bool
-santaLost s = ((<=0) . view player) s || ((<=0) . view mana) s
+santaLost = (<=0) . view player
 santaWon  = (<=0) . view boss
 
 hitOne :: Turn -> Status -> Status
@@ -81,16 +81,18 @@ bestMana hard = go Santa (Just 0) Nothing
                        in case outcome s' of
                            Win -> curMana
                            Lose -> Nothing
-                           Running -> case turn of
-                                        Boss -> go Santa curMana minMana $ if hasShield
-                                                                     then (player -~ 2) s' 
-                                                                     else (player -~ 9) s'
-                                        Santa -> let budget = view mana s'
-                                                     magics = filter (`available` s') 
-                                                            $ filter ((<=budget) . manaOf)
-                                                              [Missile, Drain, Shield, Poison, Recharge]
-                                                  in foldr (getMin s') Nothing magics
+                           Running -> step hasShield s'
       where
+        step hasShield s' = case turn of
+                    Boss -> go Santa curMana minMana $ if hasShield
+                                                 then (player -~ 2) s' 
+                                                 else (player -~ 9) s'
+                    Santa -> let budget = view mana s'
+                                 magics = filter (`available` s') 
+                                        $ filter ((<=budget) . manaOf)
+                                          [Missile, Drain, Shield, Poison, Recharge]
+                              in foldr (getMin s') Nothing magics
+                    
         nextMana magic = fmap (manaOf magic +) curMana
 
         getMin curSt magic Nothing = go Boss (nextMana magic) minMana $ applyMagic magic curSt

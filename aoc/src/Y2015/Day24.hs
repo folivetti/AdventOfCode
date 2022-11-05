@@ -10,6 +10,6 @@ pack ys n = minimum $ go ys (sum ys `div` n) (length ys `div` n)
 
 solution :: IO ()
 solution = do content <- lines <$> readFile "inputs/2015/input24.txt" 
-              let gifts = map read content :: [Int]
+              let gifts = reverse $ map read content :: [Int]
               print $ pack gifts 3
               print $ pack gifts 4
