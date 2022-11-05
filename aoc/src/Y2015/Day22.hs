@@ -53,7 +53,7 @@ applyEffect b  turn = (if b then hitOne turn else id) . applyPoison . applyRecha
                          else s
 
 
-santaLost, santaWon, end :: Status -> Bool
+santaLost, santaWon :: Status -> Bool
 santaLost s = ((<=0) . view player) s || ((<=0) . view mana) s
 santaWon  = (<=0) . view boss
 
