@@ -1,26 +1,19 @@
 {-# language OverloadedStrings #-}
 module Y2015.Day13 (solution) where
 
+import Utils ( runParser )
 import Data.List ( maximumBy )
 import Data.Function ( on )
 import qualified Data.ByteString.Char8 as B
-import Data.Attoparsec.ByteString.Char8
+import Data.Attoparsec.ByteString.Char8 ( decimal, string, Parser )
 import qualified Data.Attoparsec.ByteString.Char8 as P
 import Control.Applicative ( (<|>) )
 
 import qualified Data.Map.Strict as M
 
-runParser :: Parser a -> B.ByteString -> a
-runParser parser dat = case parse parser dat of
-                  Done _ x -> x
-                  Partial p -> case p "" of
-                                 Done _ x -> x
-                                 _ -> error "no parse"
-                  _ -> error "no parse"
-{-# INLINE runParser #-}
-
 type Graph = M.Map B.ByteString (M.Map B.ByteString Int)
 
+createEdge :: k1 -> k2 -> a -> M.Map k1 (M.Map k2 a)
 createEdge from to = M.singleton from . M.singleton to
 
 parseEdges :: Parser Graph

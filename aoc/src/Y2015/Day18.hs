@@ -1,13 +1,14 @@
 {-# language OverloadedStrings #-}
 module Y2015.Day18 (solution) where
 
-import Data.Attoparsec.ByteString.Char8
+import Utils ( runParser )
+import Data.Attoparsec.ByteString.Char8 ( char, endOfLine, many', sepBy, Parser )
 import qualified Data.ByteString.Char8 as B
 import Control.Applicative ((<|>))
 import Data.Maybe (mapMaybe)
 import qualified Data.Array.IO as IA
 import Data.Array.Base ( MArray(unsafeWrite, unsafeRead) )
-import Control.Monad ( forM_, forM, when, replicateM_ )
+import Control.Monad ( forM_, forM, replicateM_ )
 
 parseChars :: Parser Char
 parseChars = char '#' <|> char '.'
@@ -22,15 +23,6 @@ myParser :: Parser [(Int, Int)]
 myParser = do
     charMap <- many' parseChars `sepBy` endOfLine
     pure $ createSet charMap
-
-runParser :: Parser a -> B.ByteString -> a
-runParser parser dat = case parse parser dat of
-                  Done _ x -> x
-                  Partial p -> case p "" of
-                                 Done _ x -> x
-                                 _ -> error "no parse"
-                  _ -> error "no parse"
-{-# INLINE runParser #-}
 
 type Arr = IA.IOUArray Int Int
 

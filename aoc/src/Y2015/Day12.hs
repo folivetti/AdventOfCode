@@ -1,19 +1,11 @@
 {-# language OverloadedStrings #-}
 module Y2015.Day12 (solution) where
 
+import Utils ( runParser )
 import qualified Data.ByteString.Char8 as B
-import Data.Attoparsec.ByteString.Char8
+import Data.Attoparsec.ByteString.Char8 ( char, decimal, signed, space, string, sepBy, skipMany, Parser )
 import qualified Data.Attoparsec.ByteString.Char8 as P
 import Control.Applicative ( (<|>) )
-
-runParser :: Parser a -> B.ByteString -> a
-runParser parser dat = case parse parser dat of
-                  Done _ x -> x
-                  Partial p -> case p "" of
-                                 Done _ x -> x
-                                 _ -> error "no parse"
-                  _ -> error "no parse"
-{-# INLINE runParser #-}
 
 data JSON = Obj [(B.ByteString, JSON)]
           | SeqJ [JSON]
@@ -21,6 +13,7 @@ data JSON = Obj [(B.ByteString, JSON)]
           | StrJ B.ByteString
         deriving (Show, Eq)
 
+whitespace :: Parser ()
 whitespace = skipMany space
 
 kvParse :: Parser (B.ByteString, JSON)

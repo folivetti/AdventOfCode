@@ -1,10 +1,9 @@
 {-# language OverloadedStrings #-}
 module Y2015.Day14 (solution) where
 
+import Utils ( runParser )
 import qualified Data.ByteString.Char8 as B
-import Data.Attoparsec.ByteString.Char8
-import qualified Data.Attoparsec.ByteString.Char8 as P
-import qualified Data.Map as M
+import Data.Attoparsec.ByteString.Char8 ( decimal, isDigit, skipWhile, Parser )
 import Data.List ( transpose )
 
 parseReindeer :: Parser (Int, Int, Int)
@@ -15,16 +14,7 @@ parseReindeer = do
   duration <- decimal
   skipWhile (not . isDigit)
   rest <- decimal
-  pure $ (speed, duration, rest)
-
-runParser :: Parser a -> B.ByteString -> a
-runParser parser dat = case parse parser dat of
-                  Done _ x -> x
-                  Partial p -> case p "" of
-                                 Done _ x -> x
-                                 _ -> error "no parse"
-                  _ -> error "no parse"
-{-# INLINE runParser #-}
+  pure (speed, duration, rest)
 
 runTrace :: Int -> (Int, Int, Int) -> [Int]
 runTrace time (speed, duration, rest) = init $ go time [0]

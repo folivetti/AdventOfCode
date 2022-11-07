@@ -3,13 +3,12 @@ module Y2015.Day15 (solution) where
 import Data.List ( transpose )
 
 sprinkles, peanutButter, frosting, sugar :: [Int]
-sprinkles = [5, -1, 0, 0, 5]
+sprinkles    = [5, -1, 0, 0, 5]
 peanutButter = [-1, 3, 0, 0, 1]
-frosting = [0, -1, 4, 0, 6]
-sugar = [-1, 0, 0, 2, 8]
+frosting     = [0, -1, 4, 0, 6]
+sugar        = [-1, 0, 0, 2, 8]
 
 ingredients :: [[Int]]
---ingredients = transpose [[-1,-2,6,3,8], [2,3,-2,-1,3]] 
 ingredients = transpose [sprinkles, peanutButter, frosting, sugar]
 
 properties :: [[Int]]

@@ -39,9 +39,6 @@ findCodex codex rules target = go 0 codex
           sortLen         = sortOn (negate . T.length . snd)
           filterSub       = filter ((`isSubstringOf` xs) . snd)
 
---codex = "HOHOHO"
---rules = [("H", "HO"), ("H", "OH"), ("O", "HH"), ("e", "H"), ("e", "O")]
-
 solution :: IO ()
 solution = do
   content <- T.lines <$> TIO.readFile "inputs/2015/input19.txt"

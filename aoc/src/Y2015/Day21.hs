@@ -69,8 +69,7 @@ combinationsEquips = do
   [[w], [w, a], [w, r1], [w,a,r1], [w,a,r1,r2]]
 
 
-player, boss :: Player
-player = Player 100 0 0 Santa
+boss :: Player
 boss   = Player 103 9 2 Boss
 
 attacks :: Player -> Player -> Player

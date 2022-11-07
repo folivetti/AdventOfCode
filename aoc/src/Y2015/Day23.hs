@@ -1,10 +1,10 @@
 {-# language OverloadedStrings #-}
 module Y2015.Day23 (solution) where
 
+import Utils ( runParser )
 import qualified Data.ByteString.Char8 as B
-import Data.Attoparsec.ByteString.Char8
+import Data.Attoparsec.ByteString.Char8 ( char, decimal, signed, string, Parser )
 import Control.Applicative ( (<|>) )
-import Debug.Trace ( trace )
 
 type Triple = (Int, Int, Int)
 
@@ -34,15 +34,6 @@ parseInstruction = hlf <|> tpl <|> inc <|> jmp <|> jie <|> jio
                     x <- signed decimal
                     pure (\reg -> if g (f reg) then third (+x) reg else reg)
 
-
-runParser :: Parser a -> B.ByteString -> a
-runParser parser dat = case parse parser dat of
-                  Done _ x -> x
-                  Partial p -> case p "" of
-                                 Done _ x -> x
-                                 _ -> error "no parse"
-                  _ -> error "no parse"
-{-# INLINE runParser #-}
 
 evalFuns :: [Triple -> Triple] -> Triple -> Triple
 evalFuns funs = go

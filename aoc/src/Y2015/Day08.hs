@@ -1,13 +1,14 @@
 {-# language OverloadedStrings #-}
 module Y2015.Day08 (solution) where
 
+import Utils ( runParser )
 import qualified Data.ByteString.Char8 as B
-import Data.Attoparsec.ByteString.Char8 
+import Data.Attoparsec.ByteString.Char8 ( anyChar, char, peekChar, Parser ) 
 import Control.Applicative ( (<|>) )
 
 parseLen :: Parser Int
 parseLen = do
-  _ <- char '"'
+  char '"'
   parseInnerLen
   where
     parseEscape = char '\\' >> anyChar >> pure 1
@@ -24,7 +25,7 @@ parseLen = do
 
 parseStr :: Parser Int
 parseStr = do
-  _ <- char '"'
+  char '"'
   (+3) <$> parseInnerLen
   where
     parseEscape = char '\\' >> anyChar >> pure 4
@@ -39,15 +40,6 @@ parseStr = do
                 x <- parseInnerLen
                 pure (x+nxt)
       
-runParser :: Parser a -> B.ByteString -> a
-runParser parser dat = case parse parser dat of
-                  Done _ x -> x
-                  Partial p -> case p "" of
-                                 Done _ x -> x
-                                 _ -> error "no parse"
-                  _ -> error "no parse"
-{-# INLINE runParser #-}
-
 solution :: IO ()
 solution = do
   content <- B.lines <$> B.readFile "inputs/2015/input08.txt"

@@ -1,8 +1,10 @@
 {-# language OverloadedStrings #-}
 module Y2015.Day06 (solution) where
 
+import Utils ( runParser )
+
 import qualified Data.ByteString.Char8 as B
-import Data.Attoparsec.ByteString.Char8 ( parse, char, decimal, string, Parser, IResult(Done, Partial) )
+import Data.Attoparsec.ByteString.Char8 ( char, decimal, string, Parser )
 import Control.Applicative ( (<|>) )
 import qualified Data.Array.IO as IA
 import Data.Array.Base ( MArray(unsafeWrite, unsafeRead) )
@@ -30,21 +32,12 @@ parser = do
     pure (getOp op, [a*1000 + b | a <- [x1 .. x2], b <- [y1 .. y2]])
 {-# INLINE parser #-}
 
-runParser :: B.ByteString -> (Op, [Int])
-runParser dat = case parse parser dat of
-                  Done _ x -> x
-                  Partial p -> case p "" of
-                                 Done _ x -> x
-                                 _ -> error "no parse"
-                  _ -> error "no parse"
-{-# INLINE runParser #-}
-
 type Arr = IA.IOUArray Int Int
 
 solveAll :: [B.ByteString] -> IO (Int, Int)
 solveAll instrs = do
   arr <- IA.newArray (0, 1000001) 0 :: IO Arr
-  forM_ instrs (writeRng arr . runParser)
+  forM_ instrs (writeRng arr . runParser parser)
   getAns arr
   x1 <- unsafeRead arr 1000000
   x2 <- unsafeRead arr 1000001

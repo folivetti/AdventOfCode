@@ -1,23 +1,20 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Y2015.Day07 (solution) where
 
-import Data.Bits
-import Data.Word
+import Utils ( runParser )
+import Data.Bits ( Bits(complement, (.&.), (.|.), shiftR, shiftL) )
+import Data.Word ( Word16 )
 import qualified Data.Map as M
 
 import qualified Data.ByteString.Char8 as B
-import Data.Attoparsec.ByteString.Char8 ( parse, decimal, many', string, anyChar, manyTill, Parser, IResult(Done, Partial) )
-import Data.Attoparsec.ByteString.Char8 as P
+import Data.Attoparsec.ByteString.Char8 ( decimal, many', string, anyChar, manyTill, Parser )
+import Data.Attoparsec.ByteString.Char8 as P ( takeWhile )
 import Control.Applicative ( (<|>) )
 
 parserDest :: Parser String
 parserDest =  manyTill anyChar (string "-> ")
            >> many' anyChar
 {-# INLINE parserDest #-}
-
-getIx :: Int -> [a] -> a
-getIx ix xs = xs !! ix
-{-# INLINE getIx #-}
 
 fromPos :: M.Map String Int -> B.ByteString -> Int
 fromPos table = (table M.!) . B.unpack
@@ -71,15 +68,6 @@ parseNot table = do
   _ <- string "NOT "
   i1 <- parseIx table
   pure $ \xs -> complement (i1 xs)
-
-runParser :: Parser a -> B.ByteString -> a
-runParser parser dat = case parse parser dat of
-                  Done _ x -> x
-                  Partial p -> case p "" of
-                                 Done _ x -> x
-                                 _ -> error "no parse"
-                  _ -> error "no parse"
-{-# INLINE runParser #-}
 
 createMap :: [String] -> M.Map String Int
 createMap xs = M.fromList $ zip xs [0..]
