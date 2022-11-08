@@ -26,6 +26,32 @@ import qualified Y2015.Day23 as A201523
 import qualified Y2015.Day24 as A201524
 import qualified Y2015.Day25 as A201525
 
+import qualified Y2016.Day01 as A201601
+import qualified Y2016.Day02 as A201602
+import qualified Y2016.Day03 as A201603
+import qualified Y2016.Day04 as A201604
+import qualified Y2016.Day05 as A201605
+import qualified Y2016.Day06 as A201606
+import qualified Y2016.Day07 as A201607
+import qualified Y2016.Day08 as A201608
+import qualified Y2016.Day09 as A201609
+import qualified Y2016.Day10 as A201610
+import qualified Y2016.Day11 as A201611
+import qualified Y2016.Day12 as A201612
+import qualified Y2016.Day13 as A201613
+import qualified Y2016.Day14 as A201614
+import qualified Y2016.Day15 as A201615
+import qualified Y2016.Day16 as A201616
+import qualified Y2016.Day17 as A201617
+import qualified Y2016.Day18 as A201618
+import qualified Y2016.Day19 as A201619
+import qualified Y2016.Day20 as A201620
+import qualified Y2016.Day21 as A201621
+import qualified Y2016.Day22 as A201622
+import qualified Y2016.Day23 as A201623
+import qualified Y2016.Day24 as A201624
+import qualified Y2016.Day25 as A201625
+
 import qualified Y2018.Day01 as A201801
 
 solveProblem :: Int -> Int -> IO ()
@@ -54,6 +80,32 @@ solveProblem 2015 22 = A201522.solution
 solveProblem 2015 23 = A201523.solution
 solveProblem 2015 24 = A201524.solution
 solveProblem 2015 25 = A201525.solution
+
+solveProblem 2016 01 = A201601.solution
+solveProblem 2016 02 = A201602.solution
+solveProblem 2016 03 = A201603.solution
+solveProblem 2016 04 = A201604.solution
+solveProblem 2016 05 = A201605.solution
+solveProblem 2016 06 = A201606.solution
+solveProblem 2016 07 = A201607.solution
+solveProblem 2016 08 = A201608.solution
+solveProblem 2016 09 = A201609.solution
+solveProblem 2016 10 = A201610.solution
+solveProblem 2016 11 = A201611.solution
+solveProblem 2016 12 = A201612.solution
+solveProblem 2016 13 = A201613.solution
+solveProblem 2016 14 = A201614.solution
+solveProblem 2016 15 = A201615.solution
+solveProblem 2016 16 = A201616.solution
+solveProblem 2016 17 = A201617.solution
+solveProblem 2016 18 = A201618.solution
+solveProblem 2016 19 = A201619.solution
+solveProblem 2016 20 = A201620.solution
+solveProblem 2016 21 = A201621.solution
+solveProblem 2016 22 = A201622.solution
+solveProblem 2016 23 = A201623.solution
+solveProblem 2016 24 = A201624.solution
+solveProblem 2016 25 = A201625.solution
 
 solveProblem 2018 1 = A201801.solution
 
