@@ -10,5 +10,5 @@ main = do
     case args of
       (sy:sd:_) -> case solveProblem <$> readMaybe sy <*> readMaybe sd of 
                      Nothing -> error "stack run year day"
-                     Just f  -> f
+                     Just f  -> putStrLn ("Solving " <> show sy <> " " <> show sd) >> f
       _         -> error "stack run year day"

@@ -5,7 +5,7 @@ import Data.Attoparsec.ByteString.Char8 hiding ( take )
 import qualified Data.ByteString.Char8 as B
 import Control.Applicative ( (<|>) )
 import Utils ( runParser )
-import Data.List ( elemIndex, foldl' )
+import Data.List ( elemIndex, foldl', permutations, find )
 
 parser :: Parser (String -> String)
 parser = swapPos <|> swapLetter <|> rotLeft <|> rotRight <|> rotLetter <|> reversePos <|> movePos
@@ -65,13 +65,18 @@ movePos = do string "move position "
              y <- decimal
              pure $ \xs -> insertAt y (xs !! x) $ deleteAt x xs
 
+insertAt :: Int -> a -> [a] -> [a]
 insertAt ix x xs = take ix xs <> (x : drop ix xs)
+deleteAt :: Int -> [a] -> [a]
 deleteAt ix xs = take ix xs <> tail (drop ix xs)
+
+solve :: String -> [String -> String] -> String
+solve = foldl' (flip ($))
 
 tot :: Int
 tot = 8
 
 solution :: IO ()
 solution = do content <- map (runParser parser) . B.lines <$> B.readFile "inputs/2016/input21.txt"
-              putStrLn $ foldl' (flip ($)) "abcdefgh" content
-              putStrLn $ foldl' (flip ($)) "fbgdceah" $ reverse content
+              putStrLn $ solve "abcdefgh" content
+              print $ find (\x -> solve x content == "fbgdceah") $ permutations "abcdefgh"
