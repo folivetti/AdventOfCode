@@ -65,7 +65,8 @@ s0   = (0, 0)
 goal = (3, 3)
 
 passcode :: String
-passcode = "njfxhljp"
+--passcode = "njfxhljp"
+passcode = "dmypynyp"
 
 solution :: IO ()
 solution = do let steps = bfs $ Path "" 0 s0

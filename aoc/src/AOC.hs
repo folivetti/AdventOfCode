@@ -186,7 +186,7 @@ solveProblem 2017 23 = A201723.solution
 solveProblem 2017 24 = A201724.solution
 solveProblem 2017 25 = A201725.solution
 
-solveProblem 2018 1 = A201801.solution
+--solveProblem 2018 1 = A201801.solution
 
 solveProblem 2022 01 = A202201.solution
 solveProblem 2022 02 = A202202.solution

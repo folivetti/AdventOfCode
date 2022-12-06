@@ -30,5 +30,5 @@ executable aoc
                        -Wpartial-fields
                        -Wredundant-constraints
                        -Wno-unused-do-bind
-                       -O2
+                       -O1
                        -optc-O3
