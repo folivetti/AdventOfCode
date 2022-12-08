@@ -8,33 +8,31 @@ parse :: [String] -> LA.Matrix Double
 parse = LA.fromLists . map (map (fromIntegral . digitToInt))
 
 allLess :: Ord a => [a] -> Bool
-allLess []     = error "wth?"
-allLess [_]    = True
-allLess (x:xs) = maximum xs < x
+allLess []     = False
+allLess (x:xs) = all (<x) xs
+
+allCoords :: LA.Matrix Double -> [(Int, Int)]
+allCoords mtx = (,) <$> [0 .. m-1] <*> [0 .. n-1]
+  where (m, n) = LA.size mtx
 
 countVisibles :: LA.Matrix Double -> Int
-countVisibles mtx = foldr addIfVisible 0 coords
+countVisibles mtx = howMany mtx
   where
-    (m, n)              = LA.size mtx
-    coords              = (,) <$> [0 .. m-1] <*> [0 .. n-1]
-    addIfVisible xy acc = if isVisible xy
-                            then acc + 1
-                            else acc
-
+    howMany   = length . filter isVisible . allCoords 
     isVisible = any allLess . genCoords mtx
 
 viewScore :: LA.Matrix Double -> Int
-viewScore mtx = maximum $ map visibility coords
+viewScore mtx = getMax mtx
   where
-    (m, n) = LA.size mtx
-    coords = (,) <$> [0 .. m-1] <*> [0 .. n-1]
+    getMax     = maximum . map visibility . allCoords
     visibility = product . map getView . genCoords mtx
-    getView []     = error "wth"
-    getView [_]    = 0
+
+    getView []     = 0
     getView (x:xs) = length $ getBlock x xs
-    getBlock x [] = []
+
+    getBlock _ [] = []
     getBlock x (y:ys)
-      | y < x = y : getBlock x ys
+      | y < x     = y : getBlock x ys
       | otherwise = [y]
 
 genCoords :: LA.Matrix Double -> (Int, Int) -> [[Double]]
@@ -48,7 +46,6 @@ genCoords mtx (x, y) = map slice [ (Pos (idxs[x]), Range y (-1) 0)
     slice  = concat . LA.toLists . (mtx ??)
 
 solution :: IO ()
-solution = do content <- lines <$> readFile "inputs/2022/input08.txt"
-              let mtx = parse content
+solution = do mtx <- parse . lines <$> readFile "inputs/2022/input08.txt"
               print $ countVisibles mtx
               print $ viewScore mtx

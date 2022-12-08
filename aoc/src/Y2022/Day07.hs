@@ -15,10 +15,9 @@ parseCmd cmd = case words cmd of
                  _                  -> error "invalid command"
 
 cd :: String -> State [String] ()
-cd = \case
-       ".." -> modify tail
-       "/"  -> put []
-       d    -> modify (d:)
+cd ".." = modify tail
+cd "/"  = put []
+cd d    = modify (d:)
 
 addFile :: Int -> State [String] [(String, Int)]
 addFile s = gets $ map ((,s) . concatMap ('/' :)) . tails
