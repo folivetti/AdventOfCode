@@ -1,5 +1,5 @@
 {-# language TupleSections #-}
-module Y2015.Day21 (solution) where
+module Main where
 
 import Control.Monad ( guard )
 
@@ -87,8 +87,8 @@ game (p1, p2)
   | isOver (p1, p2) = (p1, p2)
   | otherwise       = game (p1 `attacks` p2, p1)
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   let part1 = minimum $ map totCost $ filter (santaWon . game . (,boss) . fromEquips) combinationsEquips
       part2 = maximum $ map totCost $ filter (not . santaWon . game . (,boss) . fromEquips) combinationsEquips
   print part1

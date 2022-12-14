@@ -1,5 +1,5 @@
 {-# language OverloadedStrings #-}
-module Y2016.Day21 ( solution ) where
+module Main where
 
 import Data.Attoparsec.ByteString.Char8 hiding ( take )
 import qualified Data.ByteString.Char8 as B
@@ -76,7 +76,7 @@ solve = foldl' (flip ($))
 tot :: Int
 tot = 8
 
-solution :: IO ()
-solution = do content <- map (runParser parser) . B.lines <$> B.readFile "inputs/2016/input21.txt"
-              putStrLn $ solve "abcdefgh" content
-              print $ find (\x -> solve x content == "fbgdceah") $ permutations "abcdefgh"
+main :: IO ()
+main = do content <- map (runParser parser) . B.lines <$> B.readFile "inputs/2016/input21.txt"
+          putStrLn $ solve "abcdefgh" content
+          print $ find (\x -> solve x content == "fbgdceah") $ permutations "abcdefgh"

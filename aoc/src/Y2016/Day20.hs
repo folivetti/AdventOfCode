@@ -1,4 +1,4 @@
-module Y2016.Day20 ( solution ) where
+module Main where
 
 import Data.Word ( Word32 )
 import Data.List ( sortOn, foldl', find )
@@ -25,8 +25,8 @@ part2 []       = 0
 part2 [x]      = 4294967295 - snd x
 part2 (x:y:xs) = (fst y - snd x - 1) + part2 (y:xs)
 
-solution :: IO ()
-solution = do content <- map parse . lines <$> readFile "inputs/2016/input20.txt"
-              let blacklist = foldl' (flip insertRange) [] content
-              print $ part1 blacklist
-              print $ part2 blacklist
+main :: IO ()
+main = do content <- map parse . lines <$> readFile "inputs/2016/input20.txt"
+          let blacklist = foldl' (flip insertRange) [] content
+          print $ part1 blacklist
+          print $ part2 blacklist

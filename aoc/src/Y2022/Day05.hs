@@ -1,4 +1,4 @@
-module Y2022.Day05 ( solution ) where
+module Main where
 
 import Data.List ( transpose )
 import Data.List.Split ( chunksOf, splitOn )
@@ -24,9 +24,9 @@ makeMoveWith f xs (n, x, y) = M.insert x x' $ M.insert y y' xs
 makeMovesWith :: (String -> String) -> M.IntMap String -> [(Int, Int, Int)] -> String
 makeMovesWith f crates = M.elems . M.map head . foldl (makeMoveWith f) crates
 
-solution :: IO ()
-solution = do content <- lines <$> readFile "inputs/2022/input05.txt"
-              let crates = getCrates content
-                  moves  = getMoves content
-              print $ makeMovesWith reverse crates moves
-              print $ makeMovesWith id crates moves
+main :: IO ()
+main = do content <- lines <$> readFile "inputs/2022/input05.txt"
+          let crates = getCrates content
+              moves  = getMoves content
+          print $ makeMovesWith reverse crates moves
+          print $ makeMovesWith id crates moves

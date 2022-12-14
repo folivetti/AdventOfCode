@@ -1,5 +1,5 @@
 {-# language OverloadedStrings #-}
-module Y2016.Day01 ( solution ) where
+module Main where
 
 import Utils ( runParser )
 import qualified Data.ByteString.Char8 as B
@@ -50,8 +50,8 @@ manhattan = uncurry (+) . bimap abs abs
 walk :: [(Pos, Pos) -> [(Pos, Pos)]] -> [(Pos, Pos)]
 walk = concat . scanl (flip ($) . last) [s0]
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
     funs <- runParser parseFuns <$> B.readFile "inputs/2016/input01.txt"
     let coords = walk funs
     print $ (manhattan . fst . last) coords 

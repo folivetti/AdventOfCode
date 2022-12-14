@@ -1,5 +1,5 @@
 {-# language OverloadedStrings #-}
-module Y2015.Day09 (solution) where
+module Main where
 
 import Utils ( runParser )
 import qualified Data.ByteString.Char8 as B
@@ -36,8 +36,8 @@ search graph = go $ [(0, [k]) | k <- M.keys graph]
       solved = all (\(_, xs) -> length xs == n)
       n      = length graph
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   content <- B.lines <$> B.readFile "inputs/2015/input09.txt"
   let graph = M.unionsWith M.union $ map (runParser parseEdges) content
       sols  = search graph

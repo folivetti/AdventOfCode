@@ -1,5 +1,5 @@
 {-# language OverloadedStrings #-}
-module Y2016.Day08 ( solution ) where
+module Main where
 
 import Utils ( runParser )
 import Data.Attoparsec.ByteString.Char8
@@ -56,8 +56,8 @@ solvePart1 instrs = do
   foldM (\acc xy -> (acc +) <$> IA.readArray arr xy) 0 [(x,y) | x <- [0 .. 5], y <- [0 .. 49]]
 
 
-solution :: IO ()
-solution = do content <- B.lines <$> B.readFile "inputs/2016/input08.txt" 
-              let funs = map (runParser parser) content
-              part1 <- solvePart1 funs
-              print part1
+main :: IO ()
+main = do content <- B.lines <$> B.readFile "inputs/2016/input08.txt" 
+          let funs = map (runParser parser) content
+          part1 <- solvePart1 funs
+          print part1

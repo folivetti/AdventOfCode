@@ -1,6 +1,6 @@
 {-# language OverloadedStrings #-}
 {-# language TemplateHaskell #-}
-module Y2016.Day12 ( solution ) where
+module Main where
 
 import Utils ( runParser )
 import Data.Attoparsec.ByteString.Char8 ( anyChar, space, decimal, signed, string, Parser )
@@ -80,7 +80,7 @@ compute instrs = go
       | reg ^. ix >= n = reg
       | otherwise      = go $ runParser parser (instrs !! _ix reg) reg
 
-solution :: IO ()
-solution = do content <- B.lines <$> B.readFile "inputs/2016/input12.txt"
-              print $ compute content (Reg 0 0 0 0 0)
-              print $ compute content (Reg 0 0 1 0 0)
+main :: IO ()
+main = do content <- B.lines <$> B.readFile "inputs/2016/input12.txt"
+          print $ compute content (Reg 0 0 0 0 0)
+          print $ compute content (Reg 0 0 1 0 0)

@@ -1,5 +1,5 @@
 {-# language OverloadedStrings #-}
-module Y2015.Day16 (solution) where
+module Main where
 
 import Utils ( runParser )
 import qualified Data.ByteString.Char8 as B
@@ -37,8 +37,8 @@ isMyTrueSue (_, kvs) = all cmp kvs
    cmp ("goldfish", v)    = v < mySue M.! "goldfish"
    cmp (k, v)             = v == mySue M.! k
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   content <- B.lines <$> B.readFile "inputs/2015/input16.txt"
   let sues = map (runParser parseSue) content
   print $ filter isMySue sues

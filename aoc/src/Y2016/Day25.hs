@@ -1,4 +1,4 @@
-module Y2016.Day25 ( solution ) where
+module Main where
 
 myFun :: Int -> [Int]
 myFun a = toBin $ a + 633*4
@@ -17,5 +17,5 @@ search = go 0
          b = myFun n
          l = length b
 
-solution :: IO ()
-solution = print search
+main :: IO ()
+main = print search

@@ -1,4 +1,4 @@
-module Y2016.Day17 ( solution ) where
+module Main where
 
 import qualified Crypto.Hash.MD5 as MD5
 import Data.ByteString.Base16 (encode)
@@ -68,7 +68,7 @@ passcode :: String
 --passcode = "njfxhljp"
 passcode = "dmypynyp"
 
-solution :: IO ()
-solution = do let steps = bfs $ Path "" 0 s0
-              print $ find ((==goal) . _coord) steps
-              print $ last $ filter ((==goal) . _coord) steps
+main :: IO ()
+main = do let steps = bfs $ Path "" 0 s0
+          print $ find ((==goal) . _coord) steps
+          print $ last $ filter ((==goal) . _coord) steps

@@ -1,4 +1,4 @@
-module Y2016.Day18 ( solution ) where
+module Main where
 
 import Data.List ( foldl' )
 
@@ -27,8 +27,8 @@ countSafe :: Int -> [String] -> Int
 countSafe n = foldl' (\acc xs -> acc + count xs) 0 . take n
   where count = length . filter (=='.')
 
-solution :: IO ()
-solution = do let rows = iterate genNewStr myInput
-              print $ countSafe 40 rows
-              print $ countSafe 400000 rows
+main :: IO ()
+main = do let rows = iterate genNewStr myInput
+          print $ countSafe 40 rows
+          print $ countSafe 400000 rows
 

@@ -1,5 +1,5 @@
 {-# language ViewPatterns #-}
-module Y2022.Day02 ( solution ) where
+module Main where
 
 data Enemy = A | B | C deriving (Read, Show, Enum)
 data Santa = X | Y | Z deriving (Read, Show, Enum)
@@ -26,7 +26,7 @@ parse :: [String] -> (Enemy, Santa)
 parse [x,y] = (read x, read y)
 parse _ = error "no parser"
 
-solution :: IO ()
-solution = do content <- map (parse . words) . lines <$> readFile "inputs/2022/input02.txt"
-              print $ sum $ map (uncurry score) content
-              print $ sum $ map (uncurry match2) content
+main :: IO ()
+main = do content <- map (parse . words) . lines <$> readFile "inputs/2022/input02.txt"
+          print $ sum $ map (uncurry score) content
+          print $ sum $ map (uncurry match2) content

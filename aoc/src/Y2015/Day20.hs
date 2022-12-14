@@ -1,5 +1,5 @@
 {-# language TypeApplications #-}
-module Y2015.Day20 (solution) where
+module Main where
 
 import Data.List ( findIndex, foldl' )
 import Control.Monad ( guard )
@@ -22,7 +22,7 @@ gifts, gifts2 :: Int -> Int
 gifts    = (*10) . divisors (const True)
 gifts2 n = (*11) . divisors (> (n-1) `div` 50) $ n
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   print $ findIndex (>= input) . map gifts $ [0 ..]
   print $ findIndex (>= input) . map gifts2 $ [0 ..]

@@ -1,5 +1,5 @@
 {-# language OverloadedStrings #-}
-module Y2015.Day19 (solution) where
+module Main where
 
 import Data.Text ( Text )
 import qualified Data.Text as T
@@ -39,8 +39,8 @@ findCodex codex rules target = go 0 codex
           sortLen         = sortOn (negate . T.length . snd)
           filterSub       = filter ((`isSubstringOf` xs) . snd)
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   content <- T.lines <$> TIO.readFile "inputs/2015/input19.txt"
   let codex = last content
       rules = parseRules $ (init . init) content

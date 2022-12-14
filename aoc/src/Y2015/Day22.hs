@@ -1,5 +1,5 @@
 {-# language TemplateHaskell #-}
-module Y2015.Day22 (solution) where
+module Main where
 
 import Control.Lens ( view, (+~), (-~), over, set, makeLenses, Getting )
 import Data.Maybe ( isJust )
@@ -111,7 +111,7 @@ bestMana hard = go Santa (Just 0) Nothing
                                _ -> True
 
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
     print $ bestMana False (Status 50 58 500 0 0 0)
     print $ bestMana True (Status 50 58 500 0 0 0)

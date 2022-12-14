@@ -1,4 +1,4 @@
-module Y2016.Day05 ( solution ) where
+module Main where
 
 import qualified Crypto.Hash.MD5 as MD5
 import Data.ByteString.Base16 (encode)
@@ -34,7 +34,7 @@ part2 = map last . sort . map (take 2) . take 8 . nubBy eqFst . map (drop 5) . f
     isValidIx = (`elem` "01234567")
     isValid x = startsWith "00000" x && isValidIx (x !! 5)
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   putStrLn $ part1 allHashes
   putStrLn $ part2 allHashes

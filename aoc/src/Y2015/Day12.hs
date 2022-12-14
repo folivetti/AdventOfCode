@@ -1,5 +1,5 @@
 {-# language OverloadedStrings #-}
-module Y2015.Day12 (solution) where
+module Main where
 
 import Utils ( runParser )
 import qualified Data.ByteString.Char8 as B
@@ -66,8 +66,8 @@ getRedSum (Number x) = x
 getRedSum _ = 0
 
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   content <- B.readFile "inputs/2015/input12.txt"
   let json = runParser parser content
   print $ getSum json

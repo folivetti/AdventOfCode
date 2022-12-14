@@ -1,5 +1,5 @@
 {-# language OverloadedStrings #-}
-module Y2015.Day08 (solution) where
+module Main where
 
 import Utils ( runParser )
 import qualified Data.ByteString.Char8 as B
@@ -40,8 +40,8 @@ parseStr = do
                 x <- parseInnerLen
                 pure (x+nxt)
       
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   content <- B.lines <$> B.readFile "inputs/2015/input08.txt"
   let 
     mem1 = map (runParser parseLen) content

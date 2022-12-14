@@ -1,5 +1,5 @@
 {-# language OverloadedStrings #-}
-module Y2015.Day23 (solution) where
+module Main where
 
 import Utils ( runParser )
 import qualified Data.ByteString.Char8 as B
@@ -45,8 +45,8 @@ evalFuns funs = go
                      in if ix == ix' 
                            then go (a', b', ix+1)
                            else go (a', b', ix')
-solution :: IO ()
-solution = do content <- B.lines <$> B.readFile "inputs/2015/input23.txt"
-              let funs = map (runParser parseInstruction) content
-              print $ getSnd $ evalFuns funs (0,0,0)
-              print $ getSnd $ evalFuns funs (1,0,0)
+main :: IO ()
+main = do content <- B.lines <$> B.readFile "inputs/2015/input23.txt"
+          let funs = map (runParser parseInstruction) content
+          print $ getSnd $ evalFuns funs (0,0,0)
+          print $ getSnd $ evalFuns funs (1,0,0)

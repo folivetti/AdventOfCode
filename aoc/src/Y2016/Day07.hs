@@ -1,4 +1,4 @@
-module Y2016.Day07 ( solution ) where
+module Main where
 
 import Utils ( runParser )
 import Data.Attoparsec.ByteString.Char8
@@ -35,8 +35,8 @@ supportsSSL (brackets, nonbrackets)
       isBAB xs      = elem xs . sublistsOf
       sublistsOf    = filter ((==3) . length) . map (Prelude.take 3) . scanr (:) []
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
     content <- B.lines <$> B.readFile "inputs/2016/input07.txt"
     let myDat = map (runParser parser) content
     print . length . filter supportsTLS $ myDat

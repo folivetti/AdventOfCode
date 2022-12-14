@@ -1,6 +1,6 @@
 {-# language LambdaCase #-}
 {-# language TupleSections #-}
-module Y2022.Day07 ( solution ) where
+module Main where
 
 import Control.Monad.State
 import qualified Data.Map as M
@@ -27,9 +27,9 @@ getMinDir fs = minimum . filter (>= required) $ M.elems fs
   where
       required = fs M.! "" + 30000000 - 70000000
 
-solution :: IO ()
-solution = do content <- lines <$> readFile "inputs/2022/input07.txt"
-              let parsed = mapM parseCmd content
-                  fs     = M.fromListWith (+) . concat $ evalState parsed []
-              print $ M.foldr (+) 0 $ M.filter (<=100000) fs
-              print $ getMinDir fs
+main :: IO ()
+main = do content <- lines <$> readFile "inputs/2022/input07.txt"
+          let parsed = mapM parseCmd content
+              fs     = M.fromListWith (+) . concat $ evalState parsed []
+          print $ M.foldr (+) 0 $ M.filter (<=100000) fs
+          print $ getMinDir fs

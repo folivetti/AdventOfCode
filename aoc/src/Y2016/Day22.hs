@@ -1,6 +1,6 @@
 {-# language OverloadedStrings #-}
 {-# language TupleSections #-}
-module Y2016.Day22 ( solution ) where
+module Main where
 
 import Data.Attoparsec.ByteString.Char8
 import qualified Data.ByteString.Char8 as B
@@ -77,14 +77,14 @@ astar s = go S.empty [s]
           xs'            = sortOn heur (xs <> nextStates x)
           heur (b, c, _) = (,c) $ fst $ head $ M.toList $ M.filter (==G) b
 
-solution :: IO ()
-solution = do nodes <- M.unions . map (runParser parser) . B.lines <$> B.readFile "inputs/2016/input22.txt"
-              let viables = viablePairs $ M.toList nodes
-                  board   = M.insert (31,0) G 
-                          $ M.fromList $ map (\(c, v) -> (c, if _used v <= 86 then V else W)) 
-                          $ M.toList nodes
-                  sols = astar (board, 0, (26,22))
-                  isGoal (b, _, _) = b M.! (0,0) == G
-                  getCost (_, c, _) = c
-              print viables
-              print $ getCost <$> find isGoal sols
+main :: IO ()
+main = do nodes <- M.unions . map (runParser parser) . B.lines <$> B.readFile "inputs/2016/input22.txt"
+          let viables = viablePairs $ M.toList nodes
+              board   = M.insert (31,0) G 
+                      $ M.fromList $ map (\(c, v) -> (c, if _used v <= 86 then V else W)) 
+                      $ M.toList nodes
+              sols = astar (board, 0, (26,22))
+              isGoal (b, _, _) = b M.! (0,0) == G
+              getCost (_, c, _) = c
+          print viables
+          print $ getCost <$> find isGoal sols

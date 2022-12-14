@@ -1,4 +1,4 @@
-module Y2022.Day06 ( solution ) where
+module Main where
 
 import Data.List ( nub )
 
@@ -13,7 +13,7 @@ startOf n xs
   | isMarker n xs = n
   | otherwise     = 1 + startOf n (tail xs)
 
-solution :: IO ()
-solution = do content <- readFile "inputs/2022/input06.txt"
-              print $ startOf 4 content
-              print $ startOf 14 content
+main :: IO ()
+main = do content <- readFile "inputs/2022/input06.txt"
+          print $ startOf 4 content
+          print $ startOf 14 content

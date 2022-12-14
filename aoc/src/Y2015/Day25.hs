@@ -1,4 +1,4 @@
-module Y2015.Day25 (solution) where
+module Main where
 
 row, col :: Int
 row = 2981
@@ -19,5 +19,5 @@ iterateUntil f x0 n = go x0 0
         | m == n    = x
         | otherwise = go (f x) (m+1)
 
-solution :: IO ()
-solution = print $ iterateUntil step 20151125 $ getIx (row, col)
+main :: IO ()
+main = print $ iterateUntil step 20151125 $ getIx (row, col)

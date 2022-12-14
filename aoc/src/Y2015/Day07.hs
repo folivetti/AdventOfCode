@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Y2015.Day07 (solution) where
+module Main where
 
 import Utils ( runParser )
 import Data.Bits ( Bits(complement, (.&.), (.|.), shiftR, shiftL) )
@@ -76,8 +76,8 @@ createMap xs = M.fromList $ zip xs [0..]
 loeb :: Functor f => f (f a -> a) -> f a
 loeb x = go where go = fmap ($ go) x
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   content <- B.lines <$> B.readFile "inputs/2015/input07.txt"
   let table = createMap $ map (runParser parserDest) content
       instrs = map (runParser (parserInst table)) content

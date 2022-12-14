@@ -1,4 +1,4 @@
-module Y2016.Day16 ( solution ) where
+module Main where
 
 import Data.List ( find, foldl' )
 
@@ -26,7 +26,7 @@ solve n x = expand x >>= (getCheck . take n)
     expand   = find ((>n) . length) . iterate step
     getCheck = find (odd . length) . iterate checksum
 
-solution :: IO ()
-solution = do 
+main :: IO ()
+main = do 
     print $ solve 272 myInput
     print $ solve 35651584 myInput

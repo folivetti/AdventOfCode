@@ -1,5 +1,5 @@
 {-# LANGUAGE TupleSections #-}
-module Y2016.Day24 ( solution ) where
+module Main where
 
 import Data.Array (Array, (!), array)
 import Data.Char (isDigit)
@@ -50,8 +50,8 @@ bfs ducts s = go S.empty [s] []
       | otherwise             = (coord, c) : go (S.insert coord hist) xs (next <> ys)
       where next = map (,c+1) $ nextStates ducts coord
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
     content <- lines <$> readFile "inputs/2016/input24.txt"
     let (start:others) = getCoords content
         candidates     = map (start :) $ permutations others

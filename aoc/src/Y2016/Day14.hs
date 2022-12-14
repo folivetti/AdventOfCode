@@ -1,4 +1,4 @@
-module Y2016.Day14 ( solution ) where
+module Main where
 
 import qualified Crypto.Hash.MD5 as MD5
 import Data.ByteString.Base16 (encode)
@@ -44,7 +44,7 @@ getKeys ((ix, x):xs) = case findTriple x of
                                       else getKeys xs
 
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   print $ (getKeys  $ zip [0..] allHashes) !! 63
   print $ (getKeys  $ zip [0..] allStretchHashes) !! 63

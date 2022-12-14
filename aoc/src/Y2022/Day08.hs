@@ -1,4 +1,4 @@
-module Y2022.Day08 ( solution ) where
+module Main where
 
 import qualified Numeric.LinearAlgebra.Data as LA
 import Numeric.LinearAlgebra.Data ( Extractor(..), idxs, (??) )
@@ -45,7 +45,7 @@ genCoords mtx (x, y) = map slice [ (Pos (idxs[x]), Range y (-1) 0)
     (m, n) = LA.size mtx
     slice  = concat . LA.toLists . (mtx ??)
 
-solution :: IO ()
-solution = do mtx <- parse . lines <$> readFile "inputs/2022/input08.txt"
-              print $ countVisibles mtx
-              print $ viewScore mtx
+main :: IO ()
+main = do mtx <- parse . lines <$> readFile "inputs/2022/input08.txt"
+          print $ countVisibles mtx
+          print $ viewScore mtx

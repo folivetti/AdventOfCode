@@ -1,4 +1,4 @@
-module Y2016.Day03 ( solution ) where
+module Main where
 
 import Data.List ( transpose )
 
@@ -21,8 +21,8 @@ howMany = length . filter isTriangle . map toTriple
 getVerticals :: [[Int]] -> [[Int]]
 getVerticals = regroup . concat . transpose
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
     content <- map (map read . words) . lines <$> readFile "inputs/2016/input03.txt"
     print $ howMany content
     print $ howMany . getVerticals $ content

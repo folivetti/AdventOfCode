@@ -1,4 +1,4 @@
-module Y2015.Day15 (solution) where
+module Main where
 
 import Data.List ( transpose )
 
@@ -32,8 +32,8 @@ allCombs = [[w, x, y, z] | w <- [0 .. 100]
                          , z <- [0 .. 100]
                          , w + x + y + z == 100
            ]
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   let scs = map score allCombs
   print $ fst $ maximum scs
   print $ fst $ maximum $ filter ((==500) . snd) scs

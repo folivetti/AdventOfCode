@@ -1,4 +1,4 @@
-module Y2022.Day12 ( solution ) where
+module Main where
 
 import Data.Array (Array, (!), array, bounds, assocs)
 import qualified Data.Set as S
@@ -34,9 +34,9 @@ bfs hmap s = go S.empty [(s, 0)] []
                               ]
           inBound (x, y) ((lx, ly), (hx, hy)) = x >= lx && x <= hx && y >= ly && y <= hy
 
-solution :: IO ()
-solution = do (area, (st, end)) <- parse <$> readFile "inputs/2022/input12.txt"
-              let search       = find ((==end) . fst) . bfs area
-                  alternatives = map fst $ filter ((==0) . snd) $ assocs area
-              print $ search st
-              print $ minimum $ map snd $ mapMaybe search alternatives
+main :: IO ()
+main = do (area, (st, end)) <- parse <$> readFile "inputs/2022/input12.txt"
+          let search       = find ((==end) . fst) . bfs area
+              alternatives = map fst $ filter ((==0) . snd) $ assocs area
+          print $ search st
+          print $ minimum $ map snd $ mapMaybe search alternatives

@@ -1,5 +1,5 @@
 {-# language TupleSections #-}
-module Y2016.Day04 ( solution ) where
+module Main where
 
 import Utils
 import Data.Attoparsec.ByteString.Char8 hiding ( take )
@@ -50,10 +50,10 @@ decode :: ([String], Int, String) -> String
 decode (a, b, _) = map (cycleChar b) a'
   where a' = intercalate "-" a
 
-solution :: IO ()
-solution = do content <- B.lines <$> B.readFile "inputs/2016/input04.txt"
-              let codes = map getCodes content
-                  part1 = countValids codes
-                  part2 = map (\(a,b,c) -> b) $ filter isNorthPole $ filter isValid codes
-              print part1
-              mapM_ print part2
+main :: IO ()
+main = do content <- B.lines <$> B.readFile "inputs/2016/input04.txt"
+          let codes = map getCodes content
+              part1 = countValids codes
+              part2 = map (\(a,b,c) -> b) $ filter isNorthPole $ filter isValid codes
+          print part1
+          mapM_ print part2

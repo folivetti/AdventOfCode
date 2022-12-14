@@ -1,4 +1,4 @@
-module Y2016.Day15 ( solution ) where
+module Main where
 
 -- taken from https://stackoverflow.com/questions/35529211/chinese-remainder-theorem-haskell
 crt :: (Integral a, Foldable t) => t (a, a) -> (a, a)
@@ -23,7 +23,7 @@ myInput = [ (-15, 17), (-2, 3), (-4, 19), (-2, 13), (-2, 7), (0, 5), (0, 11) ]
 solve :: [(Int, Int)] -> Int
 solve = fst . crt 
 
-solution :: IO ()
-solution = do let myData = zipWith (\ix (a, b) -> (a - ix, b)) [1..] myInput
-              print $ solve $ init myData
-              print $ solve myData
+main :: IO ()
+main = do let myData = zipWith (\ix (a, b) -> (a - ix, b)) [1..] myInput
+          print $ solve $ init myData
+          print $ solve myData

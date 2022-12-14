@@ -1,10 +1,10 @@
 {-# language TypeApplications #-}
-module Y2015.Day17 (solution) where
+module Main where
 
 import Data.List ( subsequences )
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   content <- map (read @Int) . lines <$> readFile "inputs/2015/input17.txt"
   let allcombs      = subsequences content
       minContainers = minimum $ map length part1

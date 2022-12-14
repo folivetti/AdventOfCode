@@ -1,4 +1,4 @@
-module Y2015.Day10 (solution) where
+module Main where
 
 import Data.List ( group )
 
@@ -11,8 +11,8 @@ rebuild = concatMap f . group
     f x = show (length x) <> [head x]
 {-# INLINE rebuild #-}
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
     let sol = iterate rebuild input
     print $ length $ sol !! 40
     print $ length $ sol !! 50

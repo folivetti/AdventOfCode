@@ -1,4 +1,4 @@
-module Y2022.Day03 ( solution ) where
+module Main where
 
 import Data.List ( find )
 import Data.List.Split ( chunksOf )
@@ -23,7 +23,7 @@ priority = adjust . fromEnum
 sumMaybe f = foldr (addPriorities f) (Just 0)
 addPriorities f x acc = (+) <$> acc <*> (priority <$> f x)
 
-solution :: IO ()
-solution = do content <- lines <$> readFile "inputs/2022/input03.txt"
-              print $ sumMaybe findChar content
-              print $ sumMaybe findBadge $ chunksOf 3 content
+main :: IO ()
+main = do content <- lines <$> readFile "inputs/2022/input03.txt"
+          print $ sumMaybe findChar content
+          print $ sumMaybe findBadge $ chunksOf 3 content

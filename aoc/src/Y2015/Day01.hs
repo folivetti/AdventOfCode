@@ -1,4 +1,4 @@
-module Y2015.Day01 (solution) where
+module Main where
 
 char2num :: Char -> Int
 char2num '(' = 1
@@ -11,8 +11,8 @@ cumsum = scanl1 (+)
 findFst :: Eq b => b -> [b] -> Int
 findFst x = fst . head . dropWhile ((/= x) . snd) . zip [1..]
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   content <- readFile "inputs/2015/input01.txt"
   let
     nums  = map char2num content

@@ -1,5 +1,5 @@
 {-# language OverloadedStrings #-}
-module Y2015.Day13 (solution) where
+module Main where
 
 import Utils ( runParser )
 import Data.List ( maximumBy )
@@ -53,8 +53,8 @@ addYourself graph = M.union youGraph graph'
     youGraph = M.singleton "You" $ M.fromList [(k,0) | k <- M.keys graph]
     graph'   = M.map (M.insert "You" 0) graph
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   content <- B.lines <$> B.readFile "inputs/2015/input13.txt"
   let graph = M.unionsWith M.union $ map (runParser parseEdges) content
       sols  = search graph

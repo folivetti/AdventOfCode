@@ -1,5 +1,5 @@
 {-# language OverloadedStrings #-}
-module Y2016.Day09 ( solution ) where
+module Main where
 
 import qualified Data.ByteString.Char8 as B
 import Data.Bifunctor ( second, bimap )
@@ -30,7 +30,7 @@ process ver2 xs
     (m, n, block) = parseInstructions instr
     (rep, next)   = B.splitAt m block
 
-solution :: IO ()
-solution = do content <- B.lines <$> B.readFile "inputs/2016/input09.txt"
-              print $ sum $ map (process False) content
-              print $ sum $ map (process True) content
+main :: IO ()
+main = do content <- B.lines <$> B.readFile "inputs/2016/input09.txt"
+          print $ sum $ map (process False) content
+          print $ sum $ map (process True) content

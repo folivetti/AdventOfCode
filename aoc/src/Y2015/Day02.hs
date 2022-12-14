@@ -1,4 +1,4 @@
-module Y2015.Day02 (solution) where
+module Main where
 
 import Data.List.Split
 
@@ -14,8 +14,8 @@ calcTot (l, w, h) = 2*l*w + 2*w*h + 2*h*l + spare
 calcRibbon :: (Int, Int, Int) -> Int
 calcRibbon (l, w, h) = l*w*h + 2 * minimum [l+w, l+h, w+h]
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   content <- readFile "inputs/2015/input02.txt"
   let
     dims  = map parseData $ lines content

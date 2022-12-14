@@ -1,5 +1,5 @@
 {-# language OverloadedStrings #-}
-module Y2015.Day06 (solution) where
+module Main where
 
 import Utils ( runParser )
 
@@ -64,8 +64,8 @@ solveAll instrs = do
       fOff x    = max 0 (x `quot` 10 - 1) * 10
       fToggle x = (x `quot` 10 + 2) * 10 + (1 - x `rem` 10)
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   content <- B.lines <$> B.readFile "inputs/2015/input06.txt"
   p1 <- solveAll content
   print p1 

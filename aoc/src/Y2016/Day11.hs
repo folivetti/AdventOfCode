@@ -1,5 +1,5 @@
 {-# language OverloadedLists #-}
-module Y2016.Day11 ( solution ) where
+module Main where
 
 import Data.IntMap.Strict ( IntMap, (!) )
 import qualified Data.Set as S
@@ -96,7 +96,7 @@ s1 = Stat (M.fromList [(0, [Microchip P, Generator P, Microchip E, Generator E, 
 
 fromJust (Just x) = x
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
    print $ fst <$> aStar neighbors cost heur (isGoal 10) s0
    print $ fst <$> aStar neighbors cost heur (isGoal 14) s1

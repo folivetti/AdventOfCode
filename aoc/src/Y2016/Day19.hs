@@ -1,4 +1,4 @@
-module Y2016.Day19 ( solution ) where
+module Main where
 
 import Data.Sequence
 import Prelude hiding (length, splitAt)
@@ -18,7 +18,7 @@ solve f = (`index` 0) . go . toSeq
     toSeq :: Int -> Seq Int
     toSeq = fromList . enumFromTo 1
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   print $ josephus 3012210
   print $ solve ((`div` 2) . length) 3012210

@@ -1,4 +1,4 @@
-module Y2022.Day04 ( solution ) where
+module Main where
 
 import Data.List.Split ( splitOn )
 import Control.Arrow ( (&&&) )
@@ -22,6 +22,6 @@ doesOverlap ((_,y), (a,_)) = y >= a
 solve :: (PairsOf Int -> Bool) -> [PairsOf Int] -> Int
 solve f = length . filter f
 
-solution :: IO ()
-solution = do content <- map parse . lines <$> readFile "inputs/2022/input04.txt"
-              print $ (solve doesCover &&& solve doesOverlap) content
+main :: IO ()
+main = do content <- map parse . lines <$> readFile "inputs/2022/input04.txt"
+          print $ (solve doesCover &&& solve doesOverlap) content

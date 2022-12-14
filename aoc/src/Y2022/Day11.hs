@@ -1,4 +1,4 @@
-module Y2022.Day11 ( solution ) where
+module Main where
 
 import Data.IntMap.Strict ( IntMap, (!) )
 import qualified Data.IntMap.Strict as M
@@ -66,11 +66,11 @@ items0 = M.fromList $ zip [0..]
                      , [61, 97, 67]
                      ]
 
-solution :: IO ()
-solution = do let business    = replicateM 20 $ mapM_ (turn True) [0..7]
-                  moreBusi    = replicateM 10000 $ mapM_ (turn False) [0..7]
-                  (_, _, ws1) = runRWS business monkeys items0
-                  (_, _, ws2) = runRWS moreBusi monkeys items0
-                  solve       = print . product . take 2 . reverse . sort . M.elems . _uncount
-              solve ws1
-              solve ws2
+main :: IO ()
+main = do let business    = replicateM 20 $ mapM_ (turn True) [0..7]
+              moreBusi    = replicateM 10000 $ mapM_ (turn False) [0..7]
+              (_, _, ws1) = runRWS business monkeys items0
+              (_, _, ws2) = runRWS moreBusi monkeys items0
+              solve       = print . product . take 2 . reverse . sort . M.elems . _uncount
+          solve ws1
+          solve ws2

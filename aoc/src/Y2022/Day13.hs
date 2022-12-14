@@ -1,5 +1,5 @@
 {-# language OverloadedStrings #-}
-module Y2022.Day13 ( solution ) where
+module Main where
 
 import Data.Attoparsec.ByteString.Char8
 import qualified Data.ByteString.Char8 as B
@@ -43,8 +43,8 @@ part2 = multIdx . sort . ([div1, div2] <>) . concat
     mulOne x y = (x+1) * (y+1)
     multIdx xs = mulOne <$> elemIndex div1 xs <*> elemIndex div2 xs
 
-solution :: IO ()
-solution = do content <- groupPairs . B.lines <$> B.readFile "inputs/2022/input13.txt"
-              let pairs = map (map (runParser parser)) content
-              print $ part1 pairs
-              print $ part2 pairs
+main :: IO ()
+main = do content <- groupPairs . B.lines <$> B.readFile "inputs/2022/input13.txt"
+          let pairs = map (map (runParser parser)) content
+          print $ part1 pairs
+          print $ part2 pairs

@@ -1,4 +1,4 @@
-module Y2018.Day01 where
+module Main where
 
-solution :: IO ()
-solution = pure ()
+main :: IO ()
+main = pure ()

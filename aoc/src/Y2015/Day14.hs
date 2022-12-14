@@ -1,5 +1,5 @@
 {-# language OverloadedStrings #-}
-module Y2015.Day14 (solution) where
+module Main where
 
 import Utils ( runParser )
 import qualified Data.ByteString.Char8 as B
@@ -32,8 +32,8 @@ scores = map sum . transpose . map f . transpose
     f xs = let x = maximum xs
             in map (\y -> if x==y then 1 else 0) xs
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
     content <- B.lines <$> B.readFile "inputs/2015/input14.txt"
     let reindeers = map (runParser parseReindeer) content
         traces    = map (runTrace 2503) reindeers

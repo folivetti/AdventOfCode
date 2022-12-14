@@ -1,5 +1,5 @@
 {-# language TransformListComp #-}
-module Y2016.Day13 ( solution ) where
+module Main where
 
 import Data.Bits ( popCount )
 import Data.Set ( Set )
@@ -34,8 +34,8 @@ bfs s = go S.empty [s] []
       | otherwise             = x : go (S.insert coord hist) xs (nextStates x <> ys)
       where coord = _coord x
 
-solution :: IO ()
-solution = do let paths = bfs s0
-              mapM_ print [ cost | Path cost (31, 39) <- paths ]
-              print $ length [ () | Path costs _ <- paths, 
-                                    then takeWhile by costs <= 50 ]
+main :: IO ()
+main = do let paths = bfs s0
+          mapM_ print [ cost | Path cost (31, 39) <- paths ]
+          print $ length [ () | Path costs _ <- paths, 
+                                then takeWhile by costs <= 50 ]

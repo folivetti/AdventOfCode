@@ -1,4 +1,4 @@
-module Y2022.Day09 ( solution ) where
+module Main where
 
 import Data.Bifunctor ( bimap, first, second )
 import Data.Set ( fromList, size )
@@ -35,8 +35,8 @@ snake [] _ = []
 snake (x:xs) knots = knots' <> snake xs (last knots')
   where knots' = followInstruction x knots
 
-solution :: IO ()
-solution = do content <- map words . lines <$> readFile "inputs/2022/input09.txt"
-              let solve = size . fromList . map last . snake content
-              print $ solve [(0,0), (0,0)]
-              print $ solve $ replicate 10 (0,0)
+main :: IO ()
+main = do content <- map words . lines <$> readFile "inputs/2022/input09.txt"
+          let solve = size . fromList . map last . snake content
+          print $ solve [(0,0), (0,0)]
+          print $ solve $ replicate 10 (0,0)

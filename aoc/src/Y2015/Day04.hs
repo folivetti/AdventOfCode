@@ -1,4 +1,4 @@
-module Y2015.Day04 (solution) where
+module Main where
 
 import qualified Crypto.Hash.MD5 as MD5
 import Data.ByteString.Base16 (encode)
@@ -15,7 +15,7 @@ findSol pat n = go 1
       | otherwise = go (i+1)
     hasFive = (==pat) . take n . hash . ("iwrupvqb" <>) . show
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   print $ findSol "00000" 5
   print $ findSol "000000" 6

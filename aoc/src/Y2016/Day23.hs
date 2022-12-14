@@ -1,6 +1,6 @@
 {-# language OverloadedStrings #-}
 {-# language TemplateHaskell #-}
-module Y2016.Day23 ( solution ) where
+module Main where
 
 import Utils ( runParser )
 import Data.Attoparsec.ByteString.Char8 ( anyChar, space, decimal, signed, string, Parser )
@@ -131,8 +131,8 @@ compute n = go
       | otherwise      = let st = runParser parser (instrs !! _ix reg) reg 
                           in uncurry go $ runState st instrs
 
-solution :: IO ()
-solution = do content  <- B.lines <$> B.readFile "inputs/2016/input23.txt"
-              content2 <- B.lines <$> B.readFile "inputs/2016/input23a.txt"
-              print $ compute (length content) (Reg 7 0 0 0 0) content
-              print $ product [12, 11 .. 2] + 93*80
+main :: IO ()
+main = do content  <- B.lines <$> B.readFile "inputs/2016/input23.txt"
+          content2 <- B.lines <$> B.readFile "inputs/2016/input23a.txt"
+          print $ compute (length content) (Reg 7 0 0 0 0) content
+          print $ product [12, 11 .. 2] + 93*80

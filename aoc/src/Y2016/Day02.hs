@@ -1,4 +1,4 @@
-module Y2016.Day02 ( solution ) where
+module Main where
 
 import Data.Map.Strict ( Map, (!) )
 import qualified Data.Map.Strict as M
@@ -56,8 +56,8 @@ applyMoves :: Graph -> [String] -> String -> [String]
 applyMoves _ [] _ = []
 applyMoves g (m:ms) c = let c' = toMoves g m c in c' : applyMoves g ms c'
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   content <- lines <$> readFile "inputs/2016/input02.txt"
   let solve g = concat $ applyMoves g content "5"
   putStrLn $ solve part1

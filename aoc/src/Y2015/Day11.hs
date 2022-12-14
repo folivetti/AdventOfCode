@@ -1,4 +1,4 @@
-module Y2015.Day11 (solution) where
+module Main where
 
 import Data.List ( nub )
 
@@ -25,8 +25,8 @@ rule3 xs = (>1) $ length $ nub $ filter (uncurry (==)) tuples
 isValid :: String -> Bool
 isValid xs = rule1 xs && rule2 xs && rule3 xs
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   let input = "vzbxkghb"
       passwords = filter isValid $ iterate next input
   print $ head passwords

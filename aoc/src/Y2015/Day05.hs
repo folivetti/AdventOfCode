@@ -1,4 +1,4 @@
-module Y2015.Day05 (solution) where
+module Main where
 
 import Data.List ( foldl' )
 
@@ -20,8 +20,8 @@ part2 str = fromEnum $ go str (False, False)
       go (x:y:xs) (b1, b2)   = go (y:xs) (b1, b2 || twice (x,y) xs)
       go _ (b1, b2)          = b1 && b2
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   content <- lines <$> readFile "inputs/2015/input05.txt"
   let isNice = foldl' (\(a, b) x -> (a + part1 x, b + part2 x)) (0, 0)
   print $ isNice content

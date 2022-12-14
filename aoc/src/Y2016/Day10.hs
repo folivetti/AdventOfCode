@@ -1,5 +1,5 @@
 {-# language OverloadedStrings #-}
-module Y2016.Day10 ( solution ) where
+module Main where
 
 import Utils ( runParser )
 import Data.Attoparsec.ByteString.Char8 ( decimal, string, eitherP, Parser )
@@ -66,9 +66,9 @@ simulate st
                                    Right x -> (r, M.insert x v b)
 
 
-solution :: IO ()
-solution = do content <- B.lines <$> B.readFile "inputs/2016/input10.txt"
-              let st = foldr (\x acc -> runParser (parser acc) x) st0 content
-              st' <- simulate st
-              let outs = _output st'
-              print $ outs M.! 0 * outs M.! 1 * outs M.! 2
+main :: IO ()
+main = do content <- B.lines <$> B.readFile "inputs/2016/input10.txt"
+          let st = foldr (\x acc -> runParser (parser acc) x) st0 content
+          st' <- simulate st
+          let outs = _output st'
+          print $ outs M.! 0 * outs M.! 1 * outs M.! 2

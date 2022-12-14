@@ -1,4 +1,4 @@
-module Y2017.Day17 ( solution ) where
+module Main where
 
-solution :: IO ()
-solution = undefined
+main :: IO ()
+main = undefined

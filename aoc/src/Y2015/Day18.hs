@@ -1,5 +1,5 @@
 {-# language OverloadedStrings #-}
-module Y2015.Day18 (solution) where
+module Main where
 
 import Utils ( runParser )
 import Data.Attoparsec.ByteString.Char8 ( char, endOfLine, many', sepBy, Parser )
@@ -83,8 +83,8 @@ applyRule arr xy = do
               then pure [(`turnOn` xy)]
               else pure []
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   content <- runParser myParser <$> B.readFile "inputs/2015/input18.txt"
   n1 <- runUntil 100 content
   n2 <- runUntil2 100 content

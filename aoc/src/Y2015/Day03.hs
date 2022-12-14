@@ -1,4 +1,4 @@
-module Y2015.Day03 (solution) where
+module Main where
 
 import qualified Data.Set as S
 
@@ -13,8 +13,8 @@ makeMoveAndSwap :: [(Int, Int)] -> Char -> [(Int, Int)]
 makeMoveAndSwap [santa, other] m = [other, makeMove santa m]
 makeMoveAndSwap _ _ = error "wrong list"
 
-solution :: IO ()
-solution = do
+main :: IO ()
+main = do
   content <- readFile "inputs/2015/input03.txt"
   let
     santa0 = (0,0)
