@@ -30,33 +30,30 @@ parser = do string "Valve "
             pure (k, (n, vs))
 
 step :: Graph -> Int -> St -> [St]
-step g t state = case openValve of
-                   Nothing -> walk
-                   Just o  -> o:walk
+step g t state@(St cur cost open)
+  | cur `S.member` open || flow == 0 = walk
+  | otherwise                        = openValve:walk
   where
-      openValve | cur `S.member` open  = Nothing
-                | flow == 0            = Nothing
-                | otherwise            = Just $ state { _cost = _cost state + (t-1) * flow, _open = S.insert cur open }
-         where 
-             flow = fst (g M.! _cur state)
-             cur = _cur state
-             open = _open state
-      walk = [ state {_cur = next} | next <- snd (g M.! _cur state)]
+      openValve     = state { _cost = cost + (t-1) * flow, _open = S.insert cur open }
+      (flow, nexts) = g M.! cur
+      walk          = [ state {_cur = next} | next <- nexts ]
 
-bfs :: Graph -> St -> Int -> M.Map (S.Set String) Int
-bfs g st0 = go (uncurry M.singleton (fromState st0))
+bfs :: Graph -> Int -> St -> M.Map (S.Set String) Int
+bfs g t0 st0 = go t0 (uncurry M.singleton (fromState st0))
   where
-      fromState st         = ((_cur st, _open st), _cost st)
+      fromState (St cur cost open) = ((cur, open), cost)
       toState ((c, o), co) = St c co o
-      go sts 0 = M.mapKeysWith max snd sts
-      go sts t = go sts' (t-1)
-        where sts' = M.fromListWith max $ concatMap (map fromState . step g t . toState) $ M.assocs sts
+      go 0 sts             = M.mapKeysWith max snd sts
+      go t sts             = go (t-1) 
+                           $ M.fromListWith max 
+                           $ concatMap (map fromState . step g t . toState) 
+                           $ M.assocs sts
 
 main :: IO ()
 main = do content <- B.lines <$> B.readFile "inputs/2022/input16.txt"
           let g = M.fromList $ map (runParser parser) content
-          print $ maximum $ bfs g (St "AA" 0 S.empty) 30
-          let santa          = bfs g (St "AA" 0 S.empty) 26
+          print $ maximum $ bfs g 30 (St "AA" 0 S.empty)
+          let santa          = bfs g 26 (St "AA" 0 S.empty)
               withElephant   = maximum [ v1+v2 | (ks1, v1) <- M.assocs santa
                                                , (ks2, v2) <- M.assocs santa
                                                , S.null $ S.intersection ks1 ks2
