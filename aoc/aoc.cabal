@@ -385,6 +385,7 @@ executable y2022_16
 executable y2022_17
   import: utils
   main-is: Y2022/Day17.hs
+  build-depends: mtl, containers
 executable y2022_18
   import: utils
   main-is: Y2022/Day18.hs
