@@ -1,0 +1,304 @@
+cradle:
+  stack:
+    - path: "./src/Y2015/Day01.hs"
+      component: "aoc:exe:y2015_01"
+
+    - path: "./src/Y2015/Day02.hs"
+      component: "aoc:exe:y2015_02"
+
+    - path: "./src/Y2015/Day03.hs"
+      component: "aoc:exe:y2015_03"
+
+    - path: "./src/Y2015/Day04.hs"
+      component: "aoc:exe:y2015_04"
+
+    - path: "./src/Y2015/Day05.hs"
+      component: "aoc:exe:y2015_05"
+
+    - path: "./src/Y2015/Day06.hs"
+      component: "aoc:exe:y2015_06"
+
+    - path: "./src/Y2015/Day07.hs"
+      component: "aoc:exe:y2015_07"
+
+    - path: "./src/Y2015/Day08.hs"
+      component: "aoc:exe:y2015_08"
+
+    - path: "./src/Y2015/Day09.hs"
+      component: "aoc:exe:y2015_09"
+
+    - path: "./src/Y2015/Day10.hs"
+      component: "aoc:exe:y2015_10"
+
+    - path: "./src/Y2015/Day11.hs"
+      component: "aoc:exe:y2015_11"
+
+    - path: "./src/Y2015/Day12.hs"
+      component: "aoc:exe:y2015_12"
+
+    - path: "./src/Y2015/Day13.hs"
+      component: "aoc:exe:y2015_13"
+
+    - path: "./src/Y2015/Day14.hs"
+      component: "aoc:exe:y2015_14"
+
+    - path: "./src/Y2015/Day15.hs"
+      component: "aoc:exe:y2015_15"
+
+    - path: "./src/Y2015/Day16.hs"
+      component: "aoc:exe:y2015_16"
+
+    - path: "./src/Y2015/Day17.hs"
+      component: "aoc:exe:y2015_17"
+
+    - path: "./src/Y2015/Day18.hs"
+      component: "aoc:exe:y2015_18"
+
+    - path: "./src/Y2015/Day19.hs"
+      component: "aoc:exe:y2015_19"
+
+    - path: "./src/Y2015/Day20.hs"
+      component: "aoc:exe:y2015_20"
+
+    - path: "./src/Y2015/Day21.hs"
+      component: "aoc:exe:y2015_21"
+
+    - path: "./src/Y2015/Day22.hs"
+      component: "aoc:exe:y2015_22"
+
+    - path: "./src/Y2015/Day23.hs"
+      component: "aoc:exe:y2015_23"
+
+    - path: "./src/Y2015/Day24.hs"
+      component: "aoc:exe:y2015_24"
+
+    - path: "./src/Y2015/Day25.hs"
+      component: "aoc:exe:y2015_25"
+
+    - path: "./src/Y2016/Day01.hs"
+      component: "aoc:exe:y2016_01"
+
+    - path: "./src/Y2016/Day02.hs"
+      component: "aoc:exe:y2016_02"
+
+    - path: "./src/Y2016/Day03.hs"
+      component: "aoc:exe:y2016_03"
+
+    - path: "./src/Y2016/Day04.hs"
+      component: "aoc:exe:y2016_04"
+
+    - path: "./src/Y2016/Day05.hs"
+      component: "aoc:exe:y2016_05"
+
+    - path: "./src/Y2016/Day06.hs"
+      component: "aoc:exe:y2016_06"
+
+    - path: "./src/Y2016/Day07.hs"
+      component: "aoc:exe:y2016_07"
+
+    - path: "./src/Y2016/Day08.hs"
+      component: "aoc:exe:y2016_08"
+
+    - path: "./src/Y2016/Day09.hs"
+      component: "aoc:exe:y2016_09"
+
+    - path: "./src/Y2016/Day10.hs"
+      component: "aoc:exe:y2016_10"
+
+    - path: "./src/Y2016/Day11.hs"
+      component: "aoc:exe:y2016_11"
+
+    - path: "./src/Y2016/Day12.hs"
+      component: "aoc:exe:y2016_12"
+
+    - path: "./src/Y2016/Day13.hs"
+      component: "aoc:exe:y2016_13"
+
+    - path: "./src/Y2016/Day14.hs"
+      component: "aoc:exe:y2016_14"
+
+    - path: "./src/Y2016/Day15.hs"
+      component: "aoc:exe:y2016_15"
+
+    - path: "./src/Y2016/Day16.hs"
+      component: "aoc:exe:y2016_16"
+
+    - path: "./src/Y2016/Day17.hs"
+      component: "aoc:exe:y2016_17"
+
+    - path: "./src/Y2016/Day18.hs"
+      component: "aoc:exe:y2016_18"
+
+    - path: "./src/Y2016/Day19.hs"
+      component: "aoc:exe:y2016_19"
+
+    - path: "./src/Y2016/Day20.hs"
+      component: "aoc:exe:y2016_20"
+
+    - path: "./src/Y2016/Day21.hs"
+      component: "aoc:exe:y2016_21"
+
+    - path: "./src/Y2016/Day22.hs"
+      component: "aoc:exe:y2016_22"
+
+    - path: "./src/Y2016/Day23.hs"
+      component: "aoc:exe:y2016_23"
+
+    - path: "./src/Y2016/Day24.hs"
+      component: "aoc:exe:y2016_24"
+
+    - path: "./src/Y2016/Day25.hs"
+      component: "aoc:exe:y2016_25"
+
+    - path: "./src/Y2017/Day01.hs"
+      component: "aoc:exe:y2017_01"
+
+    - path: "./src/Y2017/Day02.hs"
+      component: "aoc:exe:y2017_02"
+
+    - path: "./src/Y2017/Day03.hs"
+      component: "aoc:exe:y2017_03"
+
+    - path: "./src/Y2017/Day04.hs"
+      component: "aoc:exe:y2017_04"
+
+    - path: "./src/Y2017/Day05.hs"
+      component: "aoc:exe:y2017_05"
+
+    - path: "./src/Y2017/Day06.hs"
+      component: "aoc:exe:y2017_06"
+
+    - path: "./src/Y2017/Day07.hs"
+      component: "aoc:exe:y2017_07"
+
+    - path: "./src/Y2017/Day08.hs"
+      component: "aoc:exe:y2017_08"
+
+    - path: "./src/Y2017/Day09.hs"
+      component: "aoc:exe:y2017_09"
+
+    - path: "./src/Y2017/Day10.hs"
+      component: "aoc:exe:y2017_10"
+
+    - path: "./src/Y2017/Day11.hs"
+      component: "aoc:exe:y2017_11"
+
+    - path: "./src/Y2017/Day12.hs"
+      component: "aoc:exe:y2017_12"
+
+    - path: "./src/Y2017/Day13.hs"
+      component: "aoc:exe:y2017_13"
+
+    - path: "./src/Y2017/Day14.hs"
+      component: "aoc:exe:y2017_14"
+
+    - path: "./src/Y2017/Day15.hs"
+      component: "aoc:exe:y2017_15"
+
+    - path: "./src/Y2017/Day16.hs"
+      component: "aoc:exe:y2017_16"
+
+    - path: "./src/Y2017/Day17.hs"
+      component: "aoc:exe:y2017_17"
+
+    - path: "./src/Y2017/Day18.hs"
+      component: "aoc:exe:y2017_18"
+
+    - path: "./src/Y2017/Day19.hs"
+      component: "aoc:exe:y2017_19"
+
+    - path: "./src/Y2017/Day20.hs"
+      component: "aoc:exe:y2017_20"
+
+    - path: "./src/Y2017/Day21.hs"
+      component: "aoc:exe:y2017_21"
+
+    - path: "./src/Y2017/Day22.hs"
+      component: "aoc:exe:y2017_22"
+
+    - path: "./src/Y2017/Day23.hs"
+      component: "aoc:exe:y2017_23"
+
+    - path: "./src/Y2017/Day24.hs"
+      component: "aoc:exe:y2017_24"
+
+    - path: "./src/Y2017/Day25.hs"
+      component: "aoc:exe:y2017_25"
+
+    - path: "./src/Y2018/Day01.hs"
+      component: "aoc:exe:y2018_01"
+
+    - path: "./src/Y2022/Day01.hs"
+      component: "aoc:exe:y2022_01"
+
+    - path: "./src/Y2022/Day02.hs"
+      component: "aoc:exe:y2022_02"
+
+    - path: "./src/Y2022/Day03.hs"
+      component: "aoc:exe:y2022_03"
+
+    - path: "./src/Y2022/Day04.hs"
+      component: "aoc:exe:y2022_04"
+
+    - path: "./src/Y2022/Day05.hs"
+      component: "aoc:exe:y2022_05"
+
+    - path: "./src/Y2022/Day06.hs"
+      component: "aoc:exe:y2022_06"
+
+    - path: "./src/Y2022/Day07.hs"
+      component: "aoc:exe:y2022_07"
+
+    - path: "./src/Y2022/Day08.hs"
+      component: "aoc:exe:y2022_08"
+
+    - path: "./src/Y2022/Day09.hs"
+      component: "aoc:exe:y2022_09"
+
+    - path: "./src/Y2022/Day10.hs"
+      component: "aoc:exe:y2022_10"
+
+    - path: "./src/Y2022/Day11.hs"
+      component: "aoc:exe:y2022_11"
+
+    - path: "./src/Y2022/Day12.hs"
+      component: "aoc:exe:y2022_12"
+
+    - path: "./src/Y2022/Day13.hs"
+      component: "aoc:exe:y2022_13"
+
+    - path: "./src/Y2022/Day14.hs"
+      component: "aoc:exe:y2022_14"
+
+    - path: "./src/Y2022/Day15.hs"
+      component: "aoc:exe:y2022_15"
+
+    - path: "./src/Y2022/Day16.hs"
+      component: "aoc:exe:y2022_16"
+
+    - path: "./src/Y2022/Day17.hs"
+      component: "aoc:exe:y2022_17"
+
+    - path: "./src/Y2022/Day18.hs"
+      component: "aoc:exe:y2022_18"
+
+    - path: "./src/Y2022/Day19.hs"
+      component: "aoc:exe:y2022_19"
+
+    - path: "./src/Y2022/Day20.hs"
+      component: "aoc:exe:y2022_20"
+
+    - path: "./src/Y2022/Day21.hs"
+      component: "aoc:exe:y2022_21"
+
+    - path: "./src/Y2022/Day22.hs"
+      component: "aoc:exe:y2022_22"
+
+    - path: "./src/Y2022/Day23.hs"
+      component: "aoc:exe:y2022_23"
+
+    - path: "./src/Y2022/Day24.hs"
+      component: "aoc:exe:y2022_24"
+
+    - path: "./src/Y2022/Day25.hs"
+      component: "aoc:exe:y2022_25"
