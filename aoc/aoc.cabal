@@ -396,6 +396,7 @@ executable y2022_19
 executable y2022_20
   import: utils
   main-is: Y2022/Day20.hs
+  build-depends: data-clist
 executable y2022_21
   import: utils
   main-is: Y2022/Day21.hs
