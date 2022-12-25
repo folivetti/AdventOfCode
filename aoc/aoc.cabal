@@ -400,9 +400,11 @@ executable y2022_20
 executable y2022_21
   import: utils
   main-is: Y2022/Day21.hs
+  build-depends: containers
 executable y2022_22
   import: utils
   main-is: Y2022/Day22.hs
+  build-depends: containers
 executable y2022_23
   import: utils
   main-is: Y2022/Day23.hs
