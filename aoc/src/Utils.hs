@@ -16,3 +16,5 @@ applyFst f (a, b) = (f (a, b), b)
 applySnd :: ((a, b) -> c) -> (a, b) -> (a, c)
 applySnd f (a, b) = (a, f (a, b))
 
+both :: (a -> b) -> (a, a) -> (b, b) 
+both f (a, b) = (f a, f b)
