@@ -48,9 +48,9 @@ part2 sensors = freq $ head $ mapMaybe findBeacon [0 .. maxVal]
     -- the x coordinate available will either be 0 or 4000000
     findBeacon y = case findNoBeacon y sensors of
                      [] -> Just (0, y) -- all spaces are possible, take first
-                     ((a, b):_) | a > 0 -> Just (0, y) -- (0, y) is available
-                                | b < maxVal -> Just (b+1, y)
-                                | otherwise -> Nothing -- no space available
+                     ((a, b):_)  | a > 0 -> Just (0, y) -- (0, y) is available
+                                 | b < maxVal -> Just (b+1, y)
+                                 | otherwise -> Nothing -- no space available
 
 
 main :: IO ()

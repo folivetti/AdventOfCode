@@ -1,2 +1,2 @@
 #!/bin/bash
-.stack-work/install/x86_64-linux-tinfo6/9d30a34f6f44e860b491464eed1f73a7520bded448ac1f2d5c4143a42f8b866a/9.0.2/bin/$1
+.stack-work/install/x86_64-linux/c63d0133edbd398a4307bc518bde7b59f82bff06d3c28600a234dc9d97aae851/9.4.6/bin/$1
