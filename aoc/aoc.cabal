@@ -425,3 +425,7 @@ executable y2023_01
 executable y2023_02
   import: utils
   main-is: Y2023/Day02.hs
+executable y2023_03
+  import: utils
+  main-is: Y2023/Day03.hs
+  build-depends: containers

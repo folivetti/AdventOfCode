@@ -18,3 +18,11 @@ applySnd f (a, b) = (a, f (a, b))
 
 both :: (a -> b) -> (a, a) -> (b, b) 
 both f (a, b) = (f a, f b)
+
+toCoord :: [[a]] -> [((Int, Int), a)]
+toCoord xss = [ ((ix,iy), x) | (ix, xs) <- xss', (iy, x) <- xs ]
+  where xss' = enumerate $ map enumerate xss
+
+enumerate :: [a] -> [(Int, a)]
+enumerate = zip [0..] 
+
