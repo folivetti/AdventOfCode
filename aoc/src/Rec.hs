@@ -36,7 +36,6 @@ takeCF 0 _                  = []
 takeCF _ (_ :< NilF)        = []
 takeCF n (_ :< ConsF x tbl) = x : takeCF (n-1) tbl
 
-
 unOp :: Free f a -> f (Free f a)
 unOp (Op x) = x
 unOp _ = error "partial function unOp called on Ret"
