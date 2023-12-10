@@ -32,20 +32,27 @@ parser xs = (s0, fixed)
     toPipe ((x,y), 'S') = ((x,y), [(x+1,y), (x-1,y), (x,y-1), (x,y+1)])
     toPipe ((x,y), '.') = ((x,y), [])
 
--- s0 = 114, 35
-solve :: Coord -> Pipelines -> (Int, Int) -- [[Coord]]
-solve s0 pipelines = (part1, part2)
-  where
-    loop  = dfs s0 s0 -- (last $ pipelines Map.! s0) -- bfs (Set.singleton s0) [s0]
-    part1 = length loop `div` 2 
-    part2 = (abs (shoelace loop) - length loop + 3) `div` 2 - 1
+solve :: Coord -> Pipelines -> (Int, Int) 
+solve s0 pipelines = (part1 `div` 2, part2) 
+  where 
+    loop = ana coalg (s0, s0) 
 
-    shoelace [_] = 0
-    shoelace ((x0, y0) : (x1, y1) : xs) = (x1 - x0) * (y0 + y1) + shoelace ((x1,y1):xs)
+    part1 = cata alg loop
+    part2 = (histo alg2 loop - part1) `div` 2 - 1
 
-    dfs s s'
-      | nextS == s0 = [s0]
-      | otherwise   = s : dfs nextS s -- (last $ pipelines Map.! s)
+    alg NilF         = 1
+    alg (ConsF _ xs) = xs + 1
+
+    alg2 NilF = 3
+    alg2 (ConsF x table) = 
+        case nextElem table of 
+          Nothing -> extract table + (fst s0 - fst x) * (snd s0 + snd x) 
+          Just y  -> extract table + (fst y - fst x) * (snd y + snd x)
+
+    coalg :: (Coord, Coord) -> ListF Coord (Coord, Coord)
+    coalg (s, s')
+      | nextS == s0 = NilF
+      | otherwise   = ConsF s (nextS, s) 
       where 
         nextS = head [s'' | s'' <- pipelines Map.! s, s'' /= s']
 
