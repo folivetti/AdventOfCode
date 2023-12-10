@@ -24,18 +24,20 @@ getRange t d = (x0, x1)
 
 roundRange (a, b) = (a', b')
   where
-    a' = if fromIntegral (round a) == a then round a + 1 else ceiling a
-    b' = if fromIntegral (round b) == b then round b - 1 else floor b
+    isIntegral x = fromIntegral (round x) == x 
+
+    a' = if isIntegral a then round a + 1 else ceiling a
+    b' = if isIntegral b then round b - 1 else floor b
 
 numOfWins (a, b) = b - a + 1
 
 solve :: [(Int, Int)] -> (Int, Int)
 solve = getVals . cata alg . fromList 
   where
-      alg NilF         = (1, ("", ""))
-      alg (ConsF (t, d) (p1, p2)) = (getWins (t, d) * p1, (show t <> fst p2, show d <> snd p2)) 
+      alg NilF                    = (1, ("", ""))
+      alg (ConsF (t, d) (p1, p2)) = (getWins (t, d) * p1, (show t, show d) <> p2)
 
-      getWins         = numOfWins . roundRange . uncurry getRange
+      getWins        = numOfWins . roundRange . uncurry getRange
       getVals (a, b) = (a, getWins (read (fst b), read (snd b)))
 
 main :: IO ()

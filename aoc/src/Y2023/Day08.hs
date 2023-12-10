@@ -8,8 +8,8 @@ import Data.Attoparsec.ByteString.Char8
 import qualified Data.ByteString.Char8 as B
 import qualified Data.Map.Strict as Map
 import Data.List ( foldl1 )
+import Control.Arrow ( (&&&) )
 
--- parser :: Parser ([(a,a) -> a], Map.Map String (String, String))
 parser = do fs <- map toFun <$> many' (char 'L' <|> char 'R')
             many' space
             m <- many' parseKeyVal
@@ -27,21 +27,27 @@ parser = do fs <- map toFun <$> many' (char 'L' <|> char 'R')
     toFun 'L' = fst 
     toFun 'R' = snd 
 
-solve input = (part1 input, part2 input)
-
-part1 (fs, m) = go (cycle fs) 0 "AAA"
+getIx k p (fs, m) = hylo alg coalg (k, cycle fs)
   where
-      go (g:gs) ix "ZZZ" = ix 
-      go (g:gs) ix k     = go gs (ix+1) (g $ m Map.! k)
+    coalg (k, (g:gs)) 
+      | p k       = NilF 
+      | otherwise = ConsF k (g (m Map.! k), gs)
 
-part2 (fs, m) = foldl1 lcm $ map (go (cycle fs) 0) keys 
-  where
-    keys      = filter ((`endWith` 'A')) $ Map.keys m
+    alg NilF = 0
+    alg (ConsF x xs) = xs + 1
+
+part1 = getIx "AAA" (=="ZZZ")
+
+part2 (fs, m) = cata alg (fromList $ Map.keys m)
+  where 
     endWith l c = (last l) == c
 
-    go (g:gs) ix k
-      | k `endWith` 'Z' = ix 
-      | otherwise       = go gs (ix+1) (g $ m Map.! k)
+    alg NilF         = 1
+    alg (ConsF x xs) 
+      | x `endWith` 'A' = lcm xs $ getIx x (`endWith` 'Z') (fs, m)
+      | otherwise       = xs
+
+solve = part1 &&& part2
 
 main :: IO ()
 main = solve . runParser parser <$> B.readFile "inputs/2023/input08.txt"

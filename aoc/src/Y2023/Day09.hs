@@ -1,25 +1,31 @@
-{-# language OverloadedStrings #-}
 module Main ( main ) where 
 
 import Utils ( runParser )
 import Rec
-import Control.Applicative ((<|>))
 import Data.Attoparsec.ByteString.Char8
 import qualified Data.ByteString.Char8 as B
-import qualified Data.Set as Set 
-import qualified Data.Map.Strict as Map
+import Data.Monoid ( Sum(..) )
+import Data.Bifunctor ( second )
 
 parser :: Parser [Int]
 parser = (signed decimal) `sepBy` space 
 
-step []       = []
-step [x]      = []
-step (x:y:xs) = (y-x) : step (y:xs)
+-- This can be a histo
+step xs = zipWith subtract xs (tail xs) 
 
-part1 = sum . map last . Prelude.takeWhile (not . all (==0)) . iterate step
-part2 = foldr (\x acc -> x - acc) 0 . map head . Prelude.takeWhile (not . all (==0)) . iterate step
+extrapolate = hylo alg coalg
+  where
+    coalg xs
+      | any (/=0) xs = ConsF xs (step xs)
+      | otherwise    = NilF
 
-solve = sum . map part2
+    alg NilF = (Sum 0, Sum 0)
+    alg (ConsF x xs) = second negate xs <> (Sum (last x), Sum (head x))
+
+solve = cata alg . fromList 
+  where
+    alg NilF         = (Sum 0, Sum 0)
+    alg (ConsF x xs) = extrapolate x <> xs
 
 main :: IO ()
 main = solve . map (runParser parser) . B.lines <$> B.readFile "inputs/2023/input09.txt"

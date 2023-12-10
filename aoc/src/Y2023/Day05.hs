@@ -1,4 +1,3 @@
-
 {-# language OverloadedStrings #-}
 {-# language BangPatterns #-}
 module Main ( main ) where 
