@@ -7,7 +7,9 @@ import Rec
 import Control.Applicative ((<|>))
 import Data.Attoparsec.ByteString.Char8
 import qualified Data.ByteString.Char8 as B
-import Data.List ( foldl' )
+import Data.List ( sortOn )
+import Control.Monad ( guard )
+import Data.Maybe ( listToMaybe, mapMaybe )
 
 -- parser :: Parser (Int, Set.Set Int, Set.Set Int)
 parser = do string "seeds: "
@@ -26,7 +28,8 @@ parser = do string "seeds: "
             temp2humidity <- parseRng
             many' space >> string "humidity-to-location map:" >> many' space
             humidity2loc <- parseRng
-            pure (seeds, humidity2loc . temp2humidity . light2temp . water2light . fert2water . soil2fert . seed2soil)
+            let rngs = map (sortOn getSrc) [seed2soil, soil2fert, fert2water, water2light, light2temp, temp2humidity, humidity2loc]
+            pure (seeds, rngs)
 
 parseSingleRng = do dest <- decimal
                     space
@@ -35,24 +38,66 @@ parseSingleRng = do dest <- decimal
                     step <- decimal
                     pure (src, dest, step)
 
-parseRng = do rngs <- parseSingleRng `sepBy` endOfLine
-              let f x = maybe x id $ foldr g Nothing rngs
-                          where
-                            g (src, dest, step) Nothing = if x >= src && x < src+step
-                                                             then Just (x - src + dest)
-                                                             else Nothing
-                            g _ (Just z) = Just z
-              pure f
+parseRng = parseSingleRng `sepBy` endOfLine
 
-solve seeds seed2loc = (p1, p2)
+nonEmpty (_, _, l) = l > 0
+getSrc (x, _, _)   = x
+getDest (_, x, _)  = x
+getLen (_, _, x)   = x
+
+-- * taken from https://github.com/gruhn/advent-of-code/blob/master/2023/Day05.hs
+--
+fillRanges :: [(Int, Int, Int)] -> [(Int, Int, Int)]
+fillRanges rngs = accu st alg (fromList rngs) 0 
+  where 
+    st NilF _         = NilF
+    st (ConsF x xs) _ = ConsF x (xs, getSrc x + getLen x)
+
+    alg NilF s         = [(s, s, maxBound - s)]
+    alg (ConsF x xs) s = (s, s, getSrc x - s) : x : xs
+
+mergeRngs :: [(Int, Int, Int)] -> [(Int, Int, Int)] -> [(Int, Int, Int)]
+mergeRngs [] rs = rs 
+mergeRngs rs [] = rs
+mergeRngs rngs1 rngs2 = do 
+    (srcA, dstA, lenA) <- rngs1
+    (srcB, dstB, lenB) <- rngs2 
+    let dest = dstB + max 0 (dstA - srcB)
+        src  = srcA + max 0 (srcB - dstA)
+        len  = min (dstA + lenA) (srcB + lenB) - max dstA srcB 
+    guard $ nonEmpty (src, dest, len)
+    pure (src, dest, len)
+
+lookupSeed seed = cata alg . fromList
+    where 
+        alg NilF = seed 
+        alg (ConsF (src, dest, len) xs) = 
+            if src <= seed && seed <= (src + len)
+              then seed + dest - src 
+              else xs 
+
+rangeMapFromSeeds = toList . ana coalg
+  where 
+    coalg []       = NilF
+    coalg [_]      = NilF
+    coalg (x:y:xs) = ConsF (x, x, y) xs
+
+solve :: [Int] -> [[(Int, Int, Int)]] -> (Int, Int)
+solve seeds rs = (cata alg1 (fromList seeds)
+                 , cata alg2 allRngs)
     where
-        p1 = minimum $ map seed2loc seeds
-        p2 = minimum $ concatMap (\(x,y) -> map seed2loc [x .. x + y - 1]) $ pairOf seeds
+        seed2loc = cata loc (fromList rs)
+        allRngs  = fromList $ mergeRngs (rangeMapFromSeeds seeds) seed2loc
 
-        pairOf [] = []
-        pairOf [_] = []
-        pairOf (x:y:xs) = (x,y) : pairOf xs 
+        loc NilF         = []
+        loc (ConsF x xs) = mergeRngs (fillRanges x) xs
 
+        alg1 NilF         = maxBound
+        alg1 (ConsF x xs) = min xs (lookupSeed x seed2loc)
+
+        alg2 NilF         = maxBound
+        alg2 (ConsF x xs) = min xs (getDest x)
+        
 main :: IO ()
 main = uncurry solve . (runParser parser) <$> B.readFile "inputs/2023/input05.txt"
          >>= print
