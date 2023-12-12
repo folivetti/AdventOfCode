@@ -1,10 +1,8 @@
 module Main ( main ) where 
 
 import qualified Data.Map.Strict as Map 
-import Control.Arrow ( (&&&) )
 import Utils ( toCoord )
 import Rec
-import Debug.Trace ( traceShow )
 
 parser = cata alg . fromList . toCoord . lines
   where
