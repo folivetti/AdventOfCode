@@ -456,3 +456,7 @@ executable y2023_10
   import: utils
   main-is: Y2023/Day10.hs
   build-depends: containers
+executable y2023_11
+  import: utils
+  main-is: Y2023/Day11.hs
+  build-depends: containers
