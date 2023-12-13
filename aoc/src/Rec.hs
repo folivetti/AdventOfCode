@@ -36,6 +36,10 @@ takeCF 0 _                  = []
 takeCF _ (_ :< NilF)        = []
 takeCF n (_ :< ConsF x tbl) = x : takeCF (n-1) tbl
 
+index :: Cofree (ListF a) b -> Int -> b
+index t 0 = extract t 
+index (_ :< (ConsF _ t')) n = index t' (n-1)
+
 unOp :: Free f a -> f (Free f a)
 unOp (Op x) = x
 unOp _ = error "partial function unOp called on Ret"
@@ -94,6 +98,9 @@ chrono alg coalg = extract . hylo alg' coalg' . Ret
     alg' x = alg x :< x
     coalg' (Ret a) = coalg a
     coalg' (Op k) = k
+
+dyna :: Functor f => (f (Cofree f a) -> a) -> (c -> f c) -> c -> a
+dyna alg coalg = extract . hylo (\x -> alg x :< x) coalg 
 
 -- * Conversion functions
 
