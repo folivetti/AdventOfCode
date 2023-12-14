@@ -39,17 +39,17 @@ cycle' = east . south . west. north
     
 findStablePoint maps = hylo alg coalg (maps, 0, Map.empty, Map.empty) 
   where
-    alg NilF         = Nothing 
-    alg (ConsF x xs) = max x xs
+    alg (Value ans)   = ans
+    alg (Delayed ans) = ans
 
-    coalg ([], _, _, _) = NilF
+    coalg ([], _, _, _) = Value []
     coalg (xs, i, seen, cache)
       | xs `Map.member` seen = let ix    = seen Map.! xs
                                    adjIx = ix + (1000000000 - ix) `rem` (i - ix)
-                                in ConsF (Just $ cache Map.! adjIx) ([], 0, seen, cache)
-      | otherwise            = ConsF Nothing (cycle' xs, i+1, Map.insert xs i seen, Map.insert i xs cache)
+                                in Value (cache Map.! adjIx)
+      | otherwise            = Delayed (cycle' xs, i+1, Map.insert xs i seen, Map.insert i xs cache)
 
-solve = (load . north) &&& (fmap load . findStablePoint)
+solve = (load . north) &&& (load . findStablePoint)
 
 main :: IO ()
 main = solve . parser <$> readFile "inputs/2023/input14.txt"
