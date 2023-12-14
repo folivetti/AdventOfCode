@@ -5,12 +5,17 @@ import Rec
 import Data.List ( transpose, sortBy, intercalate )
 import Data.List.Split ( splitOn )
 import qualified Data.Map as Map
+import Control.Arrow ( (&&&) )
+import Data.Monoid ( Sum(..) )
 
 parser = lines
 
-sortRocks xs = rocks <> spots
-  where rocks = filter (=='O') xs 
-        spots = filter (=='.') xs 
+sortRocks = joinStrs . cata alg . fromList 
+  where
+    joinStrs (Sum m, Sum n) = replicate m 'O' <> replicate n '.'
+    alg NilF                = (Sum 0, Sum 0)
+    alg (ConsF 'O' xs)      = (Sum 1, Sum 0) <> xs
+    alg (ConsF '.' xs)      = (Sum 0, Sum 1) <> xs
 
 sortLine = intercalate "#" . map sortRocks . splitOn "#"
 
@@ -19,18 +24,32 @@ east  = map (reverse . sortLine . reverse)
 north = transpose . west . transpose
 south = transpose . east . transpose
 
-load = sum . zipWith (*) [1..] . map (length . filter (=='O')) . reverse 
+countOs = cata alg . fromList
+  where 
+    alg NilF = 0 
+    alg (ConsF 'O' xs) = xs + 1 
+    alg (ConsF  _  xs) = xs 
+
+load = cata alg . fromIList . reverse 
+  where 
+    alg INilF            = 0
+    alg (IConsF ix x xs) = xs + (ix + 1) * countOs x
 
 cycle' = east . south . west. north
+    
+findStablePoint maps = hylo alg coalg (maps, 0, Map.empty, Map.empty) 
+  where
+    alg NilF         = Nothing 
+    alg (ConsF x xs) = max x xs
 
-findStable maps = maps !! (go Map.empty 0 maps)
-  where 
-    go seen i (x:xs)
-      | x `Map.member` seen = let ix = seen Map.! x 
-                               in (ix + (1000000000 - ix) `rem` (i - ix)) 
-      | otherwise = go (Map.insert x i seen) (i+1) xs 
+    coalg ([], _, _, _) = NilF
+    coalg (xs, i, seen, cache)
+      | xs `Map.member` seen = let ix    = seen Map.! xs
+                                   adjIx = ix + (1000000000 - ix) `rem` (i - ix)
+                                in ConsF (Just $ cache Map.! adjIx) ([], 0, seen, cache)
+      | otherwise            = ConsF Nothing (cycle' xs, i+1, Map.insert xs i seen, Map.insert i xs cache)
 
-solve = load . findStable . iterate cycle'
+solve = (load . north) &&& (fmap load . findStablePoint)
 
 main :: IO ()
 main = solve . parser <$> readFile "inputs/2023/input14.txt"
