@@ -471,3 +471,7 @@ executable y2023_14
   import: utils
   main-is: Y2023/Day14.hs
   build-depends: split, containers
+executable y2023_15
+  import: utils
+  main-is: Y2023/Day15.hs
+  build-depends: split, containers
