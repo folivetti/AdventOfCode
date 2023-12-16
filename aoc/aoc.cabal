@@ -31,6 +31,8 @@ common utils
                        -Wno-unused-do-bind
                        -O2
                        -optc-O3
+                       -rtsopts
+                       -threaded
 
 -- 2015
 executable y2015_01
@@ -475,3 +477,7 @@ executable y2023_15
   import: utils
   main-is: Y2023/Day15.hs
   build-depends: split, containers
+executable y2023_16
+  import: utils
+  main-is: Y2023/Day16.hs
+  build-depends: containers, parallel
