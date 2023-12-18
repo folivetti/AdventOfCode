@@ -1,8 +1,6 @@
 module Main ( main ) where 
 
-import Utils ( toCoord )
 import Rec
-import Data.Char ( isDigit )
 import Control.Arrow ( (&&&) )
 
 type Coord = (Int, Int) 
