@@ -484,10 +484,13 @@ executable y2023_16
 executable y2023_17
   import: utils
   main-is: Y2023/Day17.hs
-  build-depends: containers, psqueues, array
+  build-depends: containers, psqueues, array, parallel
   ghc-options: -O2 -optc-O3
 executable y2023_18
   import: utils
   main-is: Y2023/Day18.hs
   build-depends: containers
-  ghc-options: -O2 -optc-O3
+executable y2023_19
+  import: utils
+  main-is: Y2023/Day19.hs
+  build-depends: containers

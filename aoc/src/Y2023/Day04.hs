@@ -1,5 +1,3 @@
-
-{-# language OverloadedStrings #-}
 {-# language TupleSections #-}
 module Main ( main ) where 
 
