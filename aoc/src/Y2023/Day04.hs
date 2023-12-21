@@ -1,4 +1,5 @@
 {-# language TupleSections #-}
+{-# language OverloadedStrings #-}
 module Main ( main ) where 
 
 import Utils ( runParser )

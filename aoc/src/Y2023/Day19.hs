@@ -62,11 +62,13 @@ follow is ds = hylo alg coalg "in"
     predicate (Just (k, v, GT)) = ds Map.! k > v
 
 solve1 (is, ds) = sum $ map (follow is) ds  
+
 solve2 :: (Map.Map String [(Maybe (Char, Integer, Ordering), Main.Result)], [Map.Map Char Integer]) -> Integer
 solve2 (is, _) = go (is Map.! "in") s0 -- [(Jmp "in", s0)]
   where
-    s0 = Map.fromList [(c, (1, 4000)) | c <- "xmas"]
+    s0       = Map.fromList [(c, (1, 4000)) | c <- "xmas"]
     sizeOf s = product $ fmap (\(lo, hi) -> hi - lo + 1) s
+
     go ((Nothing, to) : _) s = case to of 
                                   Accept -> sizeOf s 
                                   Reject -> 0 
