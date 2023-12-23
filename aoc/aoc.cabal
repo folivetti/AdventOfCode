@@ -502,3 +502,7 @@ executable y2023_21
   import: utils
   main-is: Y2023/Day21.hs
   build-depends: containers
+executable y2023_22
+  import: utils
+  main-is: Y2023/Day22.hs
+  build-depends: containers

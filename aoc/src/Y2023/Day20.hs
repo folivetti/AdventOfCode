@@ -68,9 +68,9 @@ solve modules = (part1, part2)
     presses = iterate (step' "rx") st0
     eachP   = map (\k -> iterate (step' k) st0) ["gc", "sz", "cm", "xf"]
     part1 = calcFinal $ map getPulses $ Prelude.take 1001 $ presses
-    part2 = foldr lcm 1 $ map (findRx 0) eachP
+    part2 = foldr (\x acc -> lcm acc (findRx 0 x)) 1 eachP
     conjunctions = Map.fromListWith (<>) [(v, [k]) | (k, (_, vs)) <- Map.toList modules, v <- vs]
-    st0          = (Map.fromList [(k, False) | (k, _) <- Map.toList modules], (0, 0), 0) -- <<< here rx
+    st0          = (Map.fromList [(k, False) | (k, _) <- Map.toList modules], (0, 0), 0)
     step'        = step modules conjunctions
 
     calcFinal (x:xs) = let (a, b)   = last xs
