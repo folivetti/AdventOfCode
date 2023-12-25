@@ -510,3 +510,11 @@ executable y2023_23
   import: utils
   main-is: Y2023/Day23.hs
   build-depends: containers, array, NumInstances, parallel
+executable y2023_24
+  import: utils
+  main-is: Y2023/Day24.hs
+  build-depends: sbv
+executable y2023_25
+  import: utils
+  main-is: Y2023/Day25.hs
+  build-depends: containers, random
