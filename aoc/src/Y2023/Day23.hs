@@ -41,15 +41,17 @@ dfs step goal s0 =  largestPath goal s0 $ hylo delayed coalg (Set.singleton s0, 
             nxt   = filter (`Set.notMember` visited) $ map fst edges
          in Delayed (vis, g', xs <> nxt)
 
-largestPath goal s0 g = go s0 Set.empty 
+largestPath goal s0 g = hylo alg coalg [(s0, 0, Set.empty)]
   where
-    go s seen 
-      | s == goal = Just 0
-      | s `Set.member` seen = Nothing
-      | s `Map.notMember` g = Nothing
-      | otherwise = let xs = parMap rpar (\(c, d) -> fmap (d+) (go c (Set.insert s seen))) (g Map.! s)
-                            -- [fmap (+d) (go c (Set.insert s seen)) | (c, d) <- g Map.! s]
-                     in if null xs then Nothing else maximum xs
+    alg NilF                = 0
+    alg (ConsF Nothing xs)  = xs
+    alg (ConsF (Just x) xs) = max x xs
+
+    coalg [] = NilF
+    coalg ((s,d,seen):xs)
+      | s == goal = ConsF (Just d) xs
+      | otherwise = let ys = [(c, d+d', Set.insert s seen) | (c, d') <- g Map.! s, c `Set.notMember` seen]
+                     in ConsF Nothing (ys <> xs)
 
 hike :: Array.Array (Int, Int) Char -> (Array.Array (Int, Int) Char -> (Int, Int) -> (Int, Int) -> Bool) -> (Int, Int) -> Set.Set (Int, Int) -> [(Int, Int)]
 hike forest f (x, y) visited = 
