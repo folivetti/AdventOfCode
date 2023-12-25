@@ -506,3 +506,7 @@ executable y2023_22
   import: utils
   main-is: Y2023/Day22.hs
   build-depends: containers
+executable y2023_23
+  import: utils
+  main-is: Y2023/Day23.hs
+  build-depends: containers, array, NumInstances, parallel

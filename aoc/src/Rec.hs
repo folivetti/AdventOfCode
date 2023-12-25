@@ -16,6 +16,10 @@ type CoAlgebra f a = a -> f a
 data Cofree f a = a :< f (Cofree f a)
 data Free f a = Ret a | Op (f (Free f a))
 
+delayed :: Algebra (Delay a) a
+delayed (Value x)   = x
+delayed (Delayed x) = x
+
 extract :: Cofree f a -> a
 extract (x :< _) = x
 
