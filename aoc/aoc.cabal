@@ -420,7 +420,7 @@ executable y2022_25
   import: utils
   main-is: Y2022/Day25.hs
 
--- 2022
+-- 2023
 executable y2023_01
   import: utils
   main-is: Y2023/Day01.hs
@@ -518,3 +518,8 @@ executable y2023_25
   import: utils
   main-is: Y2023/Day25.hs
   build-depends: containers, random
+
+-- 2024
+executable y2024_01
+  import: utils
+  main-is: Y2024/Day01.hs

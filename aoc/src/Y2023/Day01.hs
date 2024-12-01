@@ -6,6 +6,7 @@ import Data.Monoid ( Sum(..) )
 import Rec 
 import Utils
 
+-- 
 extractDigits :: String -> (Sum Int, Sum Int)
 extractDigits = both (Sum . fixDigit) . histo alg . fromList 
   where 
@@ -14,6 +15,7 @@ extractDigits = both (Sum . fixDigit) . histo alg . fromList
                    then x * 10 + x
                    else x
 
+    -- combine the first and last digits
     replace x y = if y == 0 
                     then x 
                     else x * 10 + mod y 10
@@ -21,10 +23,10 @@ extractDigits = both (Sum . fixDigit) . histo alg . fromList
     alg NilF          = (0, 0)
     alg (ConsF x table)
       | isDigit x = let d = digitToInt x 
-                     in (replace d xs, replace d ys)
+                     in (replace d xs, replace d ys) -- if it is a digit, insert into both accumulators
       | otherwise = case convert x table of 
                       Nothing -> (xs, ys)
-                      Just d  -> (xs, replace d ys)
+                      Just d  -> (xs, replace d ys) -- if it is a word, insert into the second (part 2)
       where 
           (xs, ys) = extract table
 
