@@ -530,3 +530,7 @@ executable y2024_03
   import: utils
   build-depends: replace-attoparsec
   main-is: Y2024/Day03.hs
+executable y2024_04
+  import: utils
+  build-depends: array
+  main-is: Y2024/Day04.hs
