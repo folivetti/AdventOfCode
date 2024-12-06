@@ -538,3 +538,7 @@ executable y2024_05
   import: utils
   build-depends: containers, split
   main-is: Y2024/Day05.hs
+executable y2024_06
+  import: utils
+  build-depends: containers
+  main-is: Y2024/Day06.hs
