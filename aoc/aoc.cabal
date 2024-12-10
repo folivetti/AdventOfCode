@@ -549,3 +549,11 @@ executable y2024_08
   import: utils
   build-depends: containers
   main-is: Y2024/Day08.hs
+executable y2024_09
+  import: utils
+  build-depends: containers
+  main-is: Y2024/Day09.hs
+executable y2024_10
+  import: utils
+  build-depends: containers
+  main-is: Y2024/Day10.hs
