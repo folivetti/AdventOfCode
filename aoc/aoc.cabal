@@ -561,3 +561,7 @@ executable y2024_11
   import: utils
   build-depends: MemoTrie
   main-is: Y2024/Day11.hs
+executable y2024_12
+  import: utils
+  build-depends: containers
+  main-is: Y2024/Day12.hs
