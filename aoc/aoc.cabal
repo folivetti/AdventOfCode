@@ -573,3 +573,7 @@ executable y2024_14
   import: utils
   build-depends: containers
   main-is: Y2024/Day14.hs
+executable y2024_15
+  import: utils
+  build-depends: containers, mtl
+  main-is: Y2024/Day15.hs
