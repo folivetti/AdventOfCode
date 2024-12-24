@@ -609,3 +609,7 @@ executable y2024_23
   import: utils
   build-depends: containers, maximal-cliques
   main-is: Y2024/Day23.hs
+executable y2024_24
+  import: utils
+  build-depends: containers, mtl
+  main-is: Y2024/Day24.hs
