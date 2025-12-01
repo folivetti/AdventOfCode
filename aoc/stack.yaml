@@ -2,5 +2,5 @@
 # You should not edit this file by hand.
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
-resolver: lts-23.0
+resolver: lts-24.22
 packages: []

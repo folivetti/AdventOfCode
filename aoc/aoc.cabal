@@ -616,3 +616,8 @@ executable y2024_24
 executable y2024_25
   import: utils
   main-is: Y2024/Day25.hs
+
+-- 2025
+executable y2025_01
+  import: utils
+  main-is: Y2025/Day01.hs
