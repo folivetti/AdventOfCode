@@ -621,3 +621,7 @@ executable y2024_25
 executable y2025_01
   import: utils
   main-is: Y2025/Day01.hs
+executable y2025_02
+  import: utils
+  main-is: Y2025/Day02.hs
+  build-depends: split
