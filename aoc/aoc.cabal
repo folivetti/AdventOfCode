@@ -625,3 +625,10 @@ executable y2025_02
   import: utils
   main-is: Y2025/Day02.hs
   build-depends: split
+executable y2025_03
+  import: utils
+  main-is: Y2025/Day03.hs
+executable y2025_04
+  import: utils
+  main-is: Y2025/Day04.hs
+  build-depends: containers
