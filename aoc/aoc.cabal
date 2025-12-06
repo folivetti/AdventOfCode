@@ -636,3 +636,6 @@ executable y2025_05
   import: utils
   main-is: Y2025/Day05.hs
   build-depends: containers, Ranged-sets, split
+executable y2025_06
+  import: utils
+  main-is: Y2025/Day06.hs
