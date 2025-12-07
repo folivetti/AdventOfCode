@@ -639,3 +639,7 @@ executable y2025_05
 executable y2025_06
   import: utils
   main-is: Y2025/Day06.hs
+executable y2025_07
+  import: utils
+  main-is: Y2025/Day07.hs
+  build-depends: containers
