@@ -643,3 +643,10 @@ executable y2025_07
   import: utils
   main-is: Y2025/Day07.hs
   build-depends: containers
+executable y2025_08
+  import: utils
+  main-is: Y2025/Day08.hs
+  build-depends: containers, disjoint-containers
+executable y2025_09
+  import: utils
+  main-is: Y2025/Day09.hs
