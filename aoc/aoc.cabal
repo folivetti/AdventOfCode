@@ -658,3 +658,6 @@ executable y2025_11
   import: utils
   main-is: Y2025/Day11.hs
   build-depends: containers, mtl
+executable y2025_12
+  import: utils
+  main-is: Y2025/Day12.hs
